@@ -4,7 +4,6 @@ import random
 import numpy as np
 from utils.treebank import StanfordSentiment
 import matplotlib
-
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import time
@@ -14,7 +13,6 @@ from sgd import *
 
 # Check Python Version
 import sys
-
 assert sys.version_info[0] == 3
 assert sys.version_info[1] >= 5
 

@@ -9,7 +9,6 @@ import random
 import numpy as np
 import os.path as op
 
-
 def load_saved_params():
     """
     A helper function that loads previously saved parameters and resets
