@@ -332,7 +332,22 @@
 
         \begin{shaded}
             \begin{answer}
-
+                \begin{enumerate}
+                    [label=(\roman*)]
+                    \item
+                    \begin{aligned}
+                        \frac{\partial \bm J {\text{neg-sample} } (\bm{v_c}, o, \bm{U}) }{\partial \bm{v_c}}
+                        &= \frac{\sigma(\bm{u_o}^\top\bm{v_c})(1-\sigma(\bm{u_o}^\top\bm{v_c}))}{\sigma(\bm{u_o}^\top\bm{v_c})} \cdot \frac{\partial \bm{u_o}^\top\bm{v_c}}{\partial \bm{v_c}} - \sum_{k=0}^{K} \frac{\partial \log(\sigma(-\bm{u_o}^\top\bm{v_c}))}{\partial \bm{v_c}}  \\
+                        &= -(1-\sigma(\bm{u_o}^\top\bm{v_c}))\bm{u_o} + \sum_{k=1}^{K} (1-\sigma(-\bm{u_k}^\top\bm{v_c}))\bm{u_k}
+                    \end{aligned}
+                    \begin{aligned}
+                        \frac{\partial \bm J {\text{neg-sample} } (\bm{v_c}, o, \bm{U}) }{\partial \bm{u_o}} = \frac{\partial (-\log(\sigma(\bm{u_o}^\top\bm{v_c})))}{\partial \bm{u_o}} = - (1-\sigma(\bm{u_o}^\top\bm{v_c})) \bm{v_c}\label{eq:equation2}
+                    \end{aligned}
+                    \begin{aligned}
+                        \frac{\partial \bm J {\text{neg-sample} } (\bm{v_c}, o, \bm{U}) }{\partial \bm{u_{w_s}}} = \frac{\partial (-\log(\sigma(-\bm{u_{w_s}}^\top\bm{v_c})))}{\partial \bm{u_{w_s}}} = - (1-\sigma(-\bm{u_{w_s}}^\top\bm{v_c})) \bm{v_c}\label{eq:equation3}
+                    \end{aligned}
+                    \item
+                \end{enumerate}
             \end{answer}
         \end{shaded}
 
