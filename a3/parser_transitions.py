@@ -9,7 +9,6 @@ Haoshen Hong <haoshen@stanford.edu>
 
 import sys
 
-
 class PartialParse(object):
     def __init__(self, sentence):
         """Initializes this partial parse.
@@ -34,7 +33,9 @@ class PartialParse(object):
         ### Note: If you need to use the sentence object to initialize anything, make sure to not directly 
         ###       reference the sentence object.  That is, remember to NOT modify the sentence object. 
 
+
         ### END YOUR CODE
+
 
     def parse_step(self, transition):
         """Performs a single parse step by applying the given transition to this partial parse
@@ -50,6 +51,7 @@ class PartialParse(object):
         ###         1. Shift
         ###         2. Left Arc
         ###         3. Right Arc
+
 
         ### END YOUR CODE
 
@@ -100,6 +102,7 @@ def minibatch_parse(sentences, model, batch_size):
     ###             contains references to the same objects. Thus, you should NOT use the `del` operator
     ###             to remove objects from the `unfinished_parses` list. This will free the underlying memory that
     ###             is being accessed by `partial_parses` and may cause your code to crash.
+
 
     ### END YOUR CODE
 
@@ -177,7 +180,6 @@ class DummyModel(object):
         """
         return [("RA" if len(pp.stack) % 2 == 0 else "LA") if len(pp.buffer) == 0 else "S"
                 for pp in partial_parses]
-
 
 def test_dependencies(name, deps, ex_deps):
     """Tests the provided dependencies match the expected dependencies"""

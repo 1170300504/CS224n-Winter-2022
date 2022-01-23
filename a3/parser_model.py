@@ -13,7 +13,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
 class ParserModel(nn.Module):
     """ Feedforward neural network with an embedding layer and two hidden layers.
     The ParserModel will predict which transition should be applied to a
@@ -31,7 +30,6 @@ class ParserModel(nn.Module):
             in other ParserModel methods.
         - For further documentation on "nn.Module" please see https://pytorch.org/docs/stable/nn.html.
     """
-
     def __init__(self, embeddings, n_features=36,
                  hidden_size=200, n_classes=3, dropout_prob=0.5):
         """ Initialize the parser model.
@@ -109,6 +107,7 @@ class ParserModel(nn.Module):
         ### END YOUR CODE
         return x
 
+
     def forward(self, w):
         """ Run the model forward.
 
@@ -140,6 +139,7 @@ class ParserModel(nn.Module):
         ###     Matrix product: https://pytorch.org/docs/stable/torch.html#torch.matmul
         ###     ReLU: https://pytorch.org/docs/stable/nn.html?highlight=relu#torch.nn.functional.relu
 
+
         ### END YOUR CODE
         return logits
 
@@ -154,13 +154,11 @@ if __name__ == "__main__":
     embeddings = np.zeros((100, 30), dtype=np.float32)
     model = ParserModel(embeddings)
 
-
     def check_embedding():
         inds = torch.randint(0, 100, (4, 36), dtype=torch.long)
         selected = model.embedding_lookup(inds)
         assert np.all(selected.data.numpy() == 0), "The result of embedding lookup: " \
                                                    + repr(selected) + " contains non-zero elements."
-
 
     def check_forward():
         inputs = torch.randint(0, 100, (4, 36), dtype=torch.long)
@@ -168,7 +166,6 @@ if __name__ == "__main__":
         expected_out_shape = (4, 3)
         assert out.shape == expected_out_shape, "The result shape of forward is: " + repr(out.shape) + \
                                                 " which doesn't match expected " + repr(expected_out_shape)
-
 
     if args.embedding:
         check_embedding()
