@@ -5,4 +5,6 @@ If you find any errors, please let me know!
 ### Update History
   Jan. 27, 2022 - a1 completed. a2 partially completed (up to problem f).
 
+### Other Information
+I'm not a Stanford student! :)
 ### My email: siyuanq4@illinois.edu
