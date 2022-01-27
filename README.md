@@ -6,5 +6,5 @@ If you find any errors, please let me know!
   Jan. 27, 2022 - a1 completed. a2 partially completed (up to problem f).
 
 ### Other Information
-I'm not a Stanford student! :) Absolutely no guarantee on the correctness of my answers.
+I'm not a Stanford student! :) The correctness of the answers is absolutely NOT guaranteed.
 ### My email: siyuanq4@illinois.edu
