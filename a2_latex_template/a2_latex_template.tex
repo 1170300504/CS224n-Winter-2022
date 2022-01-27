@@ -190,7 +190,7 @@
         \begin{shaded}
             \begin{answer}
                 $ - \sum_{w \in Vocab} \bm{y_w} \log(\hat{\bm{y_w}}) =
-                - 0 \cdot \log(\hat{\bm{y_1}}) - 0 \cdot \log(\hat{\bm{y_w}}) - \dots -
+                - 0 \cdot \log(\hat{\bm{y_1}}) - 0 \cdot \log(\hat{\bm{y_w}}) - \dots
                 - 1 \cdot \log(\hat{\bm{y_o}}) - \dots - 0 \cdot \log(\hat{\bm{y_V}}) =
                 - \log(\hat{\bm{y_o}}) $
             \end{answer}
@@ -208,16 +208,16 @@
 
         \begin{shaded}
             \begin{answer}
+                $\theta = \bm{U}^{\top} \bm{v_c}\text{, where } \bm{U} \in \mathbb{R}^{|V|\times d}$
                 \[
                     \begin{aligned}
                         \frac{\partial \bm J_{\text{naive-softmax}}(\bm v_c, o, \bm U)}{\partial \bm{v_c}}
-                        &= - \frac{\partial \log P(O=o | C=c)}{\partial \bm{v_c}} \\
-                        &= - \frac{\partial \log(\exp(\bm{u_o}^\top \bm{v_c}))}{\partial \bm{v_c}} + \frac{\partial \log(\sum_{w=1}^{V} \exp(\bm{u_w}^\top \bm{v_c}))}{\bm{v_c}} \\
-                        &= - \bm{y_o} + \sum_{w=1}^{V} P(O=w|C=c)\bm{u_w} \\
-                        &= (\hat{\bm{y}} - \bm{y}) U \in \mathbb{R}^{1 \times d}
+                        &= \frac{\partial \bm{J}}{\partial \theta} \frac{\partial \theta}{\partial \bm{v_c}} \\
+                        &= \bm{U} (\bm{\hat{y}}-\bm{y})
                     \end{aligned}
                 \]
-                The gradient is zero when $ \hat{\bm{y}} = \bm{y} $.
+                The gradient has the same dimensionality as $\bm{v_c}$.
+                It is zero when $ \hat{\bm{y}} = \bm{y} $.
                 By subtracting this gradient, $\hat{\bm{v_c}}$ moves closer to the local minimum, thus becoming
                 a more desirable vector.
             \end{answer}
@@ -230,27 +230,14 @@
             \begin{answer}
                 \[
                     \begin{aligned}
-                        \frac{\partial \bm J_{\text{naive-softmax}}(\bm v_c, o, \bm U)}{\partial \bm{u_w}}
-                        &= - \frac{\partial \log P(O=o | C=c)}{\partial \bm{u_w}} \\
-                        &= - \frac{\partial \log(\exp(\bm{u_o}^\top \bm{v_c}))}{\partial \bm{u_w}} + \frac{\partial \log(\sum_{w=1}^{V} \exp(\bm{u_w}^\top \bm{v_c}))}{\bm{u_w}} \\
+                        \frac{\partial \bm J_{\text{naive-softmax}}(\bm v_c, o, \bm U)}{\partial \bm{U}}
+                        &= \frac{\partial \bm{J}}{\partial \theta} \frac{\partial \theta}{\partial \bm{U}} \\
+                        &= \bm{v_c} (\bm{\hat{y}}-\bm{y})^{\top}
                     \end{aligned}
                 \]
-                If $w=o$,
-                \[
-                    \begin{aligned}
-                        \frac{\partial \bm J_{\text{naive-softmax}}(\bm v_c, o, \bm U)}{\partial \bm{u_w}}
-                        &= -\bm{v_c} + \frac{\exp(\bm{u_o}^\top \bm{v_c})}{\sum_{w=1}^{V} \exp(\bm{u_w}^\top \bm{v_c})} \bm{v_c} \\
-                        &= (P(O=o|C=c) - 1) \bm{v_c}
-                    \end{aligned}
-                \]
-                If $w \neq o$,
-                \[
-                    \begin{aligned}
-                        \frac{\partial \bm J_{\text{naive-softmax}}(\bm v_c, o, \bm U)}{\partial \bm{u_w}}
-                        &= \frac{\exp(\bm{u_w}^\top \bm{v_c})}{\sum_{w=1}^{V} \exp(\bm{u_w}^\top \bm{v_c})} \bm{v_c} \\
-                        &= P(O=w|C=c) \bm{v_c}
-                    \end{aligned}
-                \]
+                The gradient has the same dimensionality as $\bm{U}$.
+                So $\frac{\partial \bm J_{\text{naive-softmax}}(\bm v_c, o, \bm U)}{\partial \bm{U}} $ should be
+                the $w$th column of $\bm{v_c} (\bm{\hat{y}}-\bm{y})^{\top}$.
             \end{answer}
         \end{shaded}
 
@@ -259,10 +246,15 @@
 
         \begin{shaded}
             \begin{answer}
-                \begin{aligned}
-                    &\frac{\partial \bm J_{\text{naive-softmax}}(\bm v_c, o, \bm U)}{\partial \bm{U}} = (\hat{\bm{y}} - \bm{y})^\top \bm{v_c} \\
-                    &\frac{\bm{J(\bm{v_c}, o, U)}}{\partial \bm{u_i}} = (\hat{\bm{y_i}}-\bm{y_i}) \bm{v_c}
-                \end{aligned}
+                \[
+                    \begin{aligned}
+                        \frac{\partial \bm J_{\text{naive-softmax}}(\bm v_c, o, \bm U)}{\partial \bm{U}}
+                        &= \bm{v_c} (\bm{\hat{y}}-\bm{y})^{\top} \\
+                        &= \begin{bmatrix}
+                               \frac{\partial \bm{J}(\bm{v_c},o,\bm{U})}{\partial \bm{u_1}} & \frac{\partial \bm{J}(\bm{v_c},o,\bm{U})}{\partial \bm{u_2}} & \cdots & \frac{\partial \bm{J}(\bm{v_c},o,\bm{U})}{\partial \bm{u_{|\text{Vocab}|}}}
+                        \end{bmatrix}
+                    \end{aligned}
+                \]
             \end{answer}
         \end{shaded}
 
