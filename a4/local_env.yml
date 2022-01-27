@@ -3,15 +3,16 @@ channels:
   - pytorch
   - defaults
 dependencies:
-  - python=3.7
+  - python=3.8
+  - pytorch
   - numpy
   - scipy
   - tqdm
   - docopt
-  - pytorch
   - nltk
   - torchvision
   - pip
   - pip:
-      - sentencepiece
-      - sacrebleu
+    - sentencepiece
+    - sacrebleu
+    - tensorboard

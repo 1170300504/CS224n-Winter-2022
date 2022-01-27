@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-CS224N 2020-21: Homework 4
+CS224N 2021-22: Homework 4
 nmt_model.py: NMT Model
 Pencheng Yin <pcyin@cs.cmu.edu>
 Sahil Chopra <schopra8@stanford.edu>
@@ -18,7 +18,6 @@ import torch.nn.functional as F
 from torch.nn.utils.rnn import pad_packed_sequence, pack_padded_sequence
 
 from model_embeddings import ModelEmbeddings
-
 Hypothesis = namedtuple('Hypothesis', ['value', 'score'])
 
 
@@ -28,7 +27,6 @@ class NMT(nn.Module):
         - Unidirection LSTM Decoder
         - Global Attention Model (Luong, et al. 2015)
     """
-
     def __init__(self, embed_size, hidden_size, vocab, dropout_rate=0.2):
         """ Init NMT Model.
 
@@ -45,7 +43,7 @@ class NMT(nn.Module):
         self.vocab = vocab
 
         # default values
-        self.encoder = None
+        self.encoder = None 
         self.decoder = None
         self.h_projection = None
         self.c_projection = None
@@ -56,6 +54,7 @@ class NMT(nn.Module):
         # For sanity check only, not relevant to implementation
         self.gen_sanity_check = False
         self.counter = 0
+
 
         ### YOUR CODE HERE (~8 Lines)
         ### TODO - Initialize the following variables:
@@ -78,7 +77,11 @@ class NMT(nn.Module):
         ###     Dropout Layer:
         ###         https://pytorch.org/docs/stable/nn.html#torch.nn.Dropout
 
+
+
+
         ### END YOUR CODE
+
 
     def forward(self, source: List[List[str]], target: List[List[str]]) -> torch.Tensor:
         """ Take a mini-batch of source and target sentences, compute the log-likelihood of
@@ -95,8 +98,8 @@ class NMT(nn.Module):
         source_lengths = [len(s) for s in source]
 
         # Convert list of lists into tensors
-        source_padded = self.vocab.src.to_input_tensor(source, device=self.device)  # Tensor: (src_len, b)
-        target_padded = self.vocab.tgt.to_input_tensor(target, device=self.device)  # Tensor: (tgt_len, b)
+        source_padded = self.vocab.src.to_input_tensor(source, device=self.device)   # Tensor: (src_len, b)
+        target_padded = self.vocab.tgt.to_input_tensor(target, device=self.device)   # Tensor: (tgt_len, b)
 
         ###     Run the network forward:
         ###     1. Apply the encoder to `source_padded` by calling `self.encode()`
@@ -112,15 +115,14 @@ class NMT(nn.Module):
 
         # Zero out, probabilities for which we have nothing in the target text
         target_masks = (target_padded != self.vocab.tgt['<pad>']).float()
-
+        
         # Compute log probability of generating true target words
-        target_gold_words_log_prob = torch.gather(P, index=target_padded[1:].unsqueeze(-1), dim=-1).squeeze(
-            -1) * target_masks[1:]
+        target_gold_words_log_prob = torch.gather(P, index=target_padded[1:].unsqueeze(-1), dim=-1).squeeze(-1) * target_masks[1:]
         scores = target_gold_words_log_prob.sum(dim=0)
         return scores
 
-    def encode(self, source_padded: torch.Tensor, source_lengths: List[int]) -> Tuple[
-        torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]:
+
+    def encode(self, source_padded: torch.Tensor, source_lengths: List[int]) -> Tuple[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]:
         """ Apply the encoder to source sentences to obtain encoder hidden states.
             Additionally, take the final states of the encoder and project them to obtain initial states for decoder.
 
@@ -167,12 +169,17 @@ class NMT(nn.Module):
         ###     Tensor Permute:
         ###         https://pytorch.org/docs/stable/tensors.html#torch.Tensor.permute
 
+
+
+
+
         ### END YOUR CODE
 
         return enc_hiddens, dec_init_state
 
+
     def decode(self, enc_hiddens: torch.Tensor, enc_masks: torch.Tensor,
-               dec_init_state: Tuple[torch.Tensor, torch.Tensor], target_padded: torch.Tensor) -> torch.Tensor:
+                dec_init_state: Tuple[torch.Tensor, torch.Tensor], target_padded: torch.Tensor) -> torch.Tensor:
         """Compute combined output vectors for a batch.
 
         @param enc_hiddens (Tensor): Hidden states (b, src_len, h*2), where
@@ -186,7 +193,7 @@ class NMT(nn.Module):
         @returns combined_outputs (Tensor): combined output tensor  (tgt_len, b,  h), where
                                         tgt_len = maximum target sentence length, b = batch_size,  h = hidden size
         """
-        # Chop of the <END> token for max length sentences.
+        # Chop off the <END> token for max length sentences.
         target_padded = target_padded[:-1]
 
         # Initialize the decoder state (hidden and cell)
@@ -235,15 +242,21 @@ class NMT(nn.Module):
         ###     Tensor Stacking:
         ###         https://pytorch.org/docs/stable/torch.html#torch.stack
 
+
+
+
+
+
         ### END YOUR CODE
 
         return combined_outputs
 
+
     def step(self, Ybar_t: torch.Tensor,
-             dec_state: Tuple[torch.Tensor, torch.Tensor],
-             enc_hiddens: torch.Tensor,
-             enc_hiddens_proj: torch.Tensor,
-             enc_masks: torch.Tensor) -> Tuple[Tuple, torch.Tensor, torch.Tensor]:
+            dec_state: Tuple[torch.Tensor, torch.Tensor],
+            enc_hiddens: torch.Tensor,
+            enc_hiddens_proj: torch.Tensor,
+            enc_masks: torch.Tensor) -> Tuple[Tuple, torch.Tensor, torch.Tensor]:
         """ Compute one forward step of the LSTM decoder, including the attention computation.
 
         @param Ybar_t (Tensor): Concatenated Tensor of [Y_t o_prev], with shape (b, e + h). The input for the decoder,
@@ -291,6 +304,9 @@ class NMT(nn.Module):
         ###     Tensor Squeeze:
         ###         https://pytorch.org/docs/stable/torch.html#torch.squeeze
 
+
+
+
         ### END YOUR CODE
 
         # Set e_t to -inf where enc_masks has 1
@@ -302,7 +318,7 @@ class NMT(nn.Module):
         ###     1. Apply softmax to e_t to yield alpha_t
         ###     2. Use batched matrix multiplication between alpha_t and enc_hiddens to obtain the
         ###         attention output vector, a_t.
-        # $$     Hints:
+        #$$     Hints:
         ###           - alpha_t is shape (b, src_len)
         ###           - enc_hiddens is shape (b, src_len, 2h)
         ###           - a_t should be shape (b, 2h)
@@ -315,7 +331,7 @@ class NMT(nn.Module):
         ###
         ### Use the following docs to implement this functionality:
         ###     Softmax:
-        ###         https://pytorch.org/docs/stable/nn.html#torch.nn.functional.softmax
+        ###         https://pytorch.org/docs/stable/nn.functional.html#torch.nn.functional.softmax
         ###     Batch Multiplication:
         ###        https://pytorch.org/docs/stable/torch.html#torch.bmm
         ###     Tensor View:
@@ -324,6 +340,10 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/torch.html#torch.cat
         ###     Tanh:
         ###         https://pytorch.org/docs/stable/torch.html#torch.tanh
+
+
+
+
 
         ### END YOUR CODE
 
@@ -345,8 +365,8 @@ class NMT(nn.Module):
             enc_masks[e_id, src_len:] = 1
         return enc_masks.to(self.device)
 
-    def beam_search(self, src_sent: List[str], beam_size: int = 5, max_decoding_time_step: int = 70) -> List[
-        Hypothesis]:
+
+    def beam_search(self, src_sent: List[str], beam_size: int=5, max_decoding_time_step: int=70) -> List[Hypothesis]:
         """ Given a single source sentence, perform beam search, yielding translations in the target language.
         @param src_sent (List[str]): a single source sentence (words)
         @param beam_size (int): beam size
@@ -387,8 +407,8 @@ class NMT(nn.Module):
 
             x = torch.cat([y_t_embed, att_tm1], dim=-1)
 
-            (h_t, cell_t), att_t, _ = self.step(x, h_tm1,
-                                                exp_src_encodings, exp_src_encodings_att_linear, enc_masks=None)
+            (h_t, cell_t), att_t, _  = self.step(x, h_tm1,
+                                                      exp_src_encodings, exp_src_encodings_att_linear, enc_masks=None)
 
             # log probabilities over target words
             log_p_t = F.log_softmax(self.target_vocab_projection(att_t), dim=-1)
@@ -397,7 +417,7 @@ class NMT(nn.Module):
             contiuating_hyp_scores = (hyp_scores.unsqueeze(1).expand_as(log_p_t) + log_p_t).view(-1)
             top_cand_hyp_scores, top_cand_hyp_pos = torch.topk(contiuating_hyp_scores, k=live_hyp_num)
 
-            prev_hyp_ids = top_cand_hyp_pos // len(self.vocab.tgt)
+            prev_hyp_ids = torch.div(top_cand_hyp_pos, len(self.vocab.tgt), rounding_mode='floor')
             hyp_word_ids = top_cand_hyp_pos % len(self.vocab.tgt)
 
             new_hypotheses = []
@@ -462,8 +482,7 @@ class NMT(nn.Module):
         print('save model parameters to [%s]' % path, file=sys.stderr)
 
         params = {
-            'args': dict(embed_size=self.model_embeddings.embed_size, hidden_size=self.hidden_size,
-                         dropout_rate=self.dropout_rate),
+            'args': dict(embed_size=self.model_embeddings.embed_size, hidden_size=self.hidden_size, dropout_rate=self.dropout_rate),
             'vocab': self.vocab,
             'state_dict': self.state_dict()
         }

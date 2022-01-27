@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-CS224N 2020-21: Homework 4
-nmt.py: NMT Model
+CS224N 2021-22: Homework 4
+utils.py: Utility function
 Pencheng Yin <pcyin@cs.cmu.edu>
 Sahil Chopra <schopra8@stanford.edu>
 Vera Lin <veralin@stanford.edu>
@@ -18,7 +18,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 import nltk
 import sentencepiece as spm
-
 nltk.download('punkt')
 
 
@@ -35,6 +34,8 @@ def pad_sents(sents, pad_token):
     sents_padded = []
 
     ### YOUR CODE HERE (~6 Lines)
+
+
 
     ### END YOUR CODE
 
@@ -102,3 +103,4 @@ def batch_iter(data, batch_size, shuffle=False):
         tgt_sents = [e[1] for e in examples]
 
         yield src_sents, tgt_sents
+
