@@ -53,7 +53,7 @@ def gradcheck_naive(f, x, gradientText):
 
         it.iternext()  # Step to next dimension
 
-    print("Gradient check passed!. Read the docstring of the `gradcheck_naive`"
+    print("Gradient check passed! Read the docstring of the `gradcheck_naive`"
           " method in utils.gradcheck.py to understand what the gradient check does.")
 
 
