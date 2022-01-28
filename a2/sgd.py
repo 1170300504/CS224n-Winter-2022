@@ -9,6 +9,7 @@ import random
 import numpy as np
 import os.path as op
 
+
 def load_saved_params():
     """
     A helper function that loads previously saved parameters and resets
@@ -67,7 +68,7 @@ def sgd(f, x0, step, iterations, postprocessing=None, useSaved=False,
         start_iter, oldx, state = load_saved_params()
         if start_iter > 0:
             x0 = oldx
-            step *= 0.5 ** (start_iter / ANNEAL_EVERY)
+            step *= 0.5 ** (start_iter / ANNEAL_EVERY)  # 1 is the starting learning rate.
 
         if state:
             random.setstate(state)
@@ -86,7 +87,8 @@ def sgd(f, x0, step, iterations, postprocessing=None, useSaved=False,
 
         loss = None
         ### YOUR CODE HERE (~2 lines)
-
+        loss, grad = f(x)
+        x -= step * grad
         ### END YOUR CODE
 
         x = postprocessing(x)
