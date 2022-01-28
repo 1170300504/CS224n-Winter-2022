@@ -330,15 +330,27 @@
                     \begin{aligned}
                         \frac{\partial \bm J {\text{neg-sample} } (\bm{v_c}, o, \bm{U}) }{\partial \bm{v_c}}
                         &= \frac{\sigma(\bm{u_o}^\top\bm{v_c})(1-\sigma(\bm{u_o}^\top\bm{v_c}))}{\sigma(\bm{u_o}^\top\bm{v_c})} \cdot \frac{\partial \bm{u_o}^\top\bm{v_c}}{\partial \bm{v_c}} - \sum_{k=0}^{K} \frac{\partial \log(\sigma(-\bm{u_o}^\top\bm{v_c}))}{\partial \bm{v_c}}  \\
-                        &= -(1-\sigma(\bm{u_o}^\top\bm{v_c}))\bm{u_o} + \sum_{k=1}^{K} (1-\sigma(-\bm{u_k}^\top\bm{v_c}))\bm{u_k}
+                        &= (\sigma(\bm{u_o}^\top\bm{v_c} - 1))\bm{u_o} + \sum_{k=1}^{K} (1-\sigma(-\bm{u_k}^\top\bm{v_c}))\bm{u_k} \newline
                     \end{aligned}
                     \begin{aligned}
-                        \frac{\partial \bm J {\text{neg-sample} } (\bm{v_c}, o, \bm{U}) }{\partial \bm{u_o}} = \frac{\partial (-\log(\sigma(\bm{u_o}^\top\bm{v_c})))}{\partial \bm{u_o}} = - (1-\sigma(\bm{u_o}^\top\bm{v_c})) \bm{v_c}\label{eq:equation2}
+                        \frac{\partial \bm J {\text{neg-sample} } (\bm{v_c}, o, \bm{U}) }{\partial \bm{u_o}} &= \frac{\partial (-\log(\sigma(\bm{u_o}^\top\bm{v_c})))}{\partial \bm{u_o}} = (\sigma(\bm{u_o}^\top\bm{v_c}) - 1) \bm{v_c} \newline
                     \end{aligned}
                     \begin{aligned}
-                        \frac{\partial \bm J {\text{neg-sample} } (\bm{v_c}, o, \bm{U}) }{\partial \bm{u_{w_s}}} = \frac{\partial (-\log(\sigma(-\bm{u_{w_s}}^\top\bm{v_c})))}{\partial \bm{u_{w_s}}} = - (1-\sigma(-\bm{u_{w_s}}^\top\bm{v_c})) \bm{v_c}\label{eq:equation3}
+                        \frac{\partial \bm J {\text{neg-sample} } (\bm{v_c}, o, \bm{U}) }{\partial \bm{u_{w_s}}} &= \frac{\partial (-\log(\sigma(-\bm{u_{w_s}}^\top\bm{v_c})))}{\partial \bm{u_{w_s}}} = (1-\sigma(-\bm{u_{w_s}}^\top\bm{v_c})) \bm{v_c} \newline
                     \end{aligned}
                     \item
+                    Since $ \bm{U}_{o, \{w_1, \dots, w_K\}}^\top \bm{v_c} = \begin{bmatrix}
+                                                                                \bm{u_o}^{\top} \bm{v_c}      \\
+                                                                                -\bm{u_{w_1}}^{\top} \bm{v_c} \\
+                                                                                \vdots                        \\
+                                                                                -\bm{u_{w_k}}^{\top} \bm{v_c} \\
+                    \end{bmatrix}  $, we can reuse $ \sigma(\bm{U}^\top\bm{v_c}) - \bm{1} = \begin{bmatrix}
+                                                                                                \sigma(\bm{u_o}^\top \bm{v_c}) - 1      \\
+                                                                                                \vdots                                  \\
+                                                                                                \sigma(-\bm{u_{w_1}}^\top \bm{v_c}) - 1 \\
+                                                                                                \sigma(-\bm{u_{w_k}}^\top \bm{v_c}) - 1 \\
+                    \end{bmatrix} $.
+                    \item We don't have to loop over the entire vocabulary using Negative Sampling loss.
                 \end{enumerate}
             \end{answer}
         \end{shaded}
@@ -357,7 +369,10 @@
 
         \begin{shaded}
             \begin{answer}
-
+                \begin{aligned}
+                    \bm J {\text{neg-sample} } (\bm{v_c}, o, \bm{U})  &= -\log(\sigma(\bm{u_o}^\top \bm{v_c})) -\sum_{\substack{1\le j \le k \\ w_j = w_s}} \log(\sigma(-\bm{u_{w_i}}^\top \bm{v_c})) -\sum_{\substack{1\le j \le k \\ w_i \neq w_s}} \log(\sigma(-\bm{u_{w_j}}^\top \bm{v_c})) \\
+                    \frac{\partial \bm J {\text{neg-sample} } (\bm{v_c}, o, \bm{U}) }{\partial \bm{u_{w_s}}} &= - \sum_{\substack{1 \le j \le k \\ w_j = w_s}} (\sigma(-\bm{u_{w_s}}^\top \bm{v_c}) - 1) \bm{v_c}
+                \end{aligned}
             \end{answer}
         \end{shaded}
 
@@ -381,7 +396,12 @@
 
         \begin{shaded}
             \begin{answer}
-
+                \begin{enumerate}
+                    [label=(\roman*)]
+                    \item ${\frac{\partial \bm J_{\textrm{skip-gram}}(\bm v_c, w_{t-m},\ldots w_{t+m}, \bm U)} {\partial \bm U}} = \sum_{\substack{-m \le j \le m \\ j \ne 0}} \frac{\partial \bm{J} (\bm{v_c},w_{t+j},\bm{U})}{\partial \bm{U}}  $
+                    \item ${\frac{\partial \bm J_{\textrm{skip-gram}}(\bm v_c, w_{t-m},\ldots w_{t+m}, \bm U)} {\partial \bm v_c}} = \sum_{\substack{-m \le j \le m \\ j \ne 0}} \frac{\partial \bm{J} (\bm{v_c},w_{t+j},\bm{U})}{\partial \bm{v_c}}  $
+                    \item ${\frac{\partial \bm J_{\textrm{skip-gram}}(\bm v_c, w_{t-m},\ldots w_{t+m}, \bm U)} {\partial \bm v_w}} = \bm 0$ when $w \ne c$
+                \end{enumerate}
             \end{answer}
         \end{shaded}
 
@@ -434,7 +454,9 @@
 
         \begin{shaded}
             \begin{answer}
-
+                Some words that share certain syntactic similarities like adjectives "amazing," "wonderful," "boring," and "great" cluster together.
+                Some words have similar semantics like "woman" and "female" also cluster together.
+                But words "male," "king," and "man" unexpectedly don't cluster.
             \end{answer}
         \end{shaded}
 
