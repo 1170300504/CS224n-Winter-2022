@@ -26,6 +26,6 @@ problem f). a4 (Winter 2022) updated. a5 (Winter 2022) has not been published.
 
 ### Other Information
 
-I'm not a Stanford student! :) The correctness of the answers is absolutely NOT guaranteed.
+I'm not a Stanford student! :) The correctness of the answers is NOT guaranteed.
 
 ### My email: siyuanq4@illinois.edu
