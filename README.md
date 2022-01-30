@@ -11,7 +11,7 @@ let me know!
 - [x] Assignment 2
 - [ ] **Assignment 3**
 - [ ] Assignment 4
-- [ ] Assignment 5 (2019, ConvNets and subword modeling)
+- [ ] ~~Assignment 5 (2019, ConvNets and subword modeling)~~
 - [ ] Assignment 5 (Self-Attention, Transformers, and Pretraining)
 - [ ] Default Final Project (IID SQuAD track)
 - [ ] Default Final Project (Robust QA track)
@@ -30,4 +30,5 @@ problem f). a4 (Winter 2022) updated. a5 (Winter 2022) has not been published.
 
 I'm not a Stanford student! :) The correctness of the answers is NOT guaranteed.
 
-### My email: siyuanq4@illinois.edu
+### My Email
+siyuanq4@illinois.edu
