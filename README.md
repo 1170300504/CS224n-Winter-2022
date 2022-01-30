@@ -11,7 +11,7 @@ let me know!
 - [x] Assignment 2
 - [ ] **Assignment 3**
 - [ ] Assignment 4
-- [ ] Assignment 5 (2019, ConvNets and subword modeling)
+- [ ] *Assignment 5 (2019, ConvNets and subword modeling)*
 - [ ] Assignment 5 (Self-Attention, Transformers, and Pretraining)
 - [ ] Default Final Project (IID SQuAD track)
 - [ ] Default Final Project (Robust QA track)
