@@ -1,6 +1,6 @@
 # CS224n-Winter-2022
 
-This repository contains my solutions to the assignments of *CS224n: Natural Language Processing with Deep Learning*
+This repository contains my solutions to the assignments of Stanford *CS224n: Natural Language Processing with Deep Learning*
  (Winter 2022). If you find any errors, *please*
 let me know!
 
