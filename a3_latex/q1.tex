@@ -32,6 +32,7 @@
         where $\odot$ and $/$ denote elementwise multiplication and division (so $\bz \odot \bz$ is elementwise squaring) and $\beta_2$ is a hyperparameter between 0 and 1 (often set to 0.99). Since Adam divides the update by $\sqrt{\bv}$, which of the model parameters will get larger updates? Why might this help with learning?
 
         \ifans{
+            Model parameters with a scarce history of updates will get larger updates. This normalizes the update steps, avoids overshooting or a monotonically decreasing learning rate.
         }\newline
 
     \end{subparts}
