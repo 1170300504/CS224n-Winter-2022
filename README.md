@@ -5,7 +5,7 @@ let me know!
 
 ### Current Progress
 
-- [x] Assignment 1 (may update to Winter 2022 version in the future)
+- [x] Assignment 1 (*may update to Winter 2022 version in the future*)
 - [x] Assignment 2
 - [ ] **Assignment 3**
 - [ ] Assignment 4
