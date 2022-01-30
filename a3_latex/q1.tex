@@ -18,6 +18,9 @@
         where $\beta_1$ is a hyperparameter between 0 and 1 (often set to 0.9). Briefly explain in 2-4 sentences (you don't need to prove mathematically, just give an intuition) how using $\bm$ stops the updates from varying as much and why this low variance may be helpful to learning, overall.
 
         \ifans{
+            It is obvious that only a small portion of $\bm$ may get affected in a single update, and therefore
+            the {\it momentum} somehow reduces the amplitude of oscillations and avoids excessive change of $\btheta$ in a single step.
+            This low variance helps maintain the efficiency of gradient descent, leading to faster convergence.
         }\newline
 
         \subpart[2] Adam extends the idea of {\it momentum} with the technique of {\it adaptive learning rates} by keeping track of  $\bv$, a rolling average of the magnitudes of the gradients:
