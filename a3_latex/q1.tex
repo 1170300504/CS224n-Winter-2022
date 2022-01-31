@@ -53,10 +53,15 @@
         \subpart[2]
         What must $\gamma$ equal in terms of $p_{\text{drop}}$? Briefly justify your answer or show your math derivation using the equations given above.\\
         \ifans{
+            The probability of retaining a unit is $ (1-p_{\text{drop})} $. Therefore, the expected value of $ \bd \odot \bh $ is $(1-p_{\text{drop}})$.
+            So $\gamma$ must equal to $ \frac{1}{1-p_{\text{drop}}} $.
         }\newline
 
         \subpart[2] Why should dropout be applied during training? Why should dropout \textbf{NOT} be applied during evaluation? (Hint: it may help to look at the paper linked above in the write-up.)
         \ifans{
+            Applying dropout to a neural network during training somehow samples a ``thinned" network from it, and therefore
+            prevents overfitting. However, there is no need to prevent overfitting during evaluation. Also, apply dropout during evaluation
+            undermines the consistency of the model output.
         }\newline
 
     \end{subparts}
