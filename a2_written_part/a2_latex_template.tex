@@ -189,6 +189,7 @@
         Your answer should be one line. You may describe your answer in words.
         \begin{shaded}
             \begin{answer}
+                \\
                 $ - \sum_{w \in Vocab} \bm{y_w} \log(\hat{\bm{y_w}}) =
                 - 0 \cdot \log(\hat{\bm{y_1}}) - 0 \cdot \log(\hat{\bm{y_w}}) - \dots
                 - 1 \cdot \log(\hat{\bm{y_o}}) - \dots - 0 \cdot \log(\hat{\bm{y_V}}) =
@@ -208,6 +209,7 @@
 
         \begin{shaded}
             \begin{answer}
+                \\
                 $\theta = \bm{U}^{\top} \bm{v_c}\text{, where } \bm{U} \in \mathbb{R}^{|V|\times d}$
                 \[
                     \begin{aligned}
@@ -292,6 +294,7 @@
 
         \begin{shaded}
             \begin{answer}
+                \\~\\
                 \begin{aligned}
                     \frac{\partial \sigma(x)}{\partial x} &= \frac{\partial}{\partial x} \frac{e^x}{e^x+1} = \frac{e^x(e^x+1)-e^{2x}}{(e^x+1)^2} \\
                     &= \frac{e^x}{(e^x+1)^2} = \sigma(x)(1-\sigma(x))
@@ -327,6 +330,7 @@
                 \begin{enumerate}
                     [label=(\roman*)]
                     \item
+                    \\~\\
                     \begin{aligned}
                         \frac{\partial \bm J {\text{neg-sample} } (\bm{v_c}, o, \bm{U}) }{\partial \bm{v_c}}
                         &= \frac{\sigma(\bm{u_o}^\top\bm{v_c})(1-\sigma(\bm{u_o}^\top\bm{v_c}))}{\sigma(\bm{u_o}^\top\bm{v_c})} \cdot \frac{\partial \bm{u_o}^\top\bm{v_c}}{\partial \bm{v_c}} - \sum_{k=0}^{K} \frac{\partial \log(\sigma(-\bm{u_o}^\top\bm{v_c}))}{\partial \bm{v_c}}  \\
@@ -369,6 +373,7 @@
 
         \begin{shaded}
             \begin{answer}
+                \\~\\
                 \begin{aligned}
                     \bm J {\text{neg-sample} } (\bm{v_c}, o, \bm{U})  &= -\log(\sigma(\bm{u_o}^\top \bm{v_c})) -\sum_{\substack{1\le j \le k \\ w_j = w_s}} \log(\sigma(-\bm{u_{w_i}}^\top \bm{v_c})) -\sum_{\substack{1\le j \le k \\ w_i \neq w_s}} \log(\sigma(-\bm{u_{w_j}}^\top \bm{v_c})) \\
                     \frac{\partial \bm J {\text{neg-sample} } (\bm{v_c}, o, \bm{U}) }{\partial \bm{u_{w_s}}} &= - \sum_{\substack{1 \le j \le k \\ w_j = w_s}} (\sigma(-\bm{u_{w_s}}^\top \bm{v_c}) - 1) \bm{v_c}

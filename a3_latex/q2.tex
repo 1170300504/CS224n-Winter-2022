@@ -35,6 +35,15 @@ On each step, your parser will decide among the three transitions using a neural
     \end{tabular}\newline
 
     \ifans{
+        \\~\\
+        \begin{tabular}{ l | l | l | l}
+            Stack                      & Buffer                          & New dependency & Transition            \\ \hline
+            [ROOT]                     & [Today, I, parsed, a, sentence] &                & Initial Configuration \\
+            $[$ROOT, Today]            & [I, parsed, a, sentence]        &                & \texttt{SHIFT}        \\
+            $[$ROOT, Today, I]         & [parsed, a, sentence]           &                & \texttt{SHIFT}        \\
+            $[$ROOT, Today, I, parsed] & [a, sentence]                   &                & \texttt{SHIFT}        \\
+            $[$ROOT, Today, parsed]    & [a, sentence]                   & parsed$\to$I   & \texttt{LEFT-ARC}     \\
+        \end{tabular}\newline
     }\newline
 
     \part[2] A sentence containing $n$ words will be parsed in how many steps (in terms of $n$)? Briefly explain in 1-2 sentences why.
