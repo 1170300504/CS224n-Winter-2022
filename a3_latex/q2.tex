@@ -36,19 +36,23 @@ On each step, your parser will decide among the three transitions using a neural
 
     \ifans{
         \\~\\
+        (Continued) \\
         \begin{tabular}{ l | l | l | l}
-            Stack                      & Buffer                          & New dependency & Transition            \\ \hline
-            [ROOT]                     & [Today, I, parsed, a, sentence] &                & Initial Configuration \\
-            $[$ROOT, Today]            & [I, parsed, a, sentence]        &                & \texttt{SHIFT}        \\
-            $[$ROOT, Today, I]         & [parsed, a, sentence]           &                & \texttt{SHIFT}        \\
-            $[$ROOT, Today, I, parsed] & [a, sentence]                   &                & \texttt{SHIFT}        \\
-            $[$ROOT, Today, parsed]    & [a, sentence]                   & parsed$\to$I   & \texttt{LEFT-ARC}     \\
+            Stack                         & Buffer        & New dependency      & Transition         \\ \hline
+            $[$ROOT, parsed]              & [a, sentence] & parsed$\to$Today    & \texttt{LEFT-ARC}  \\
+            $[$ROOT, parsed, a]           & [sentence]    &                     & \texttt{SHIFT}     \\
+            $[$ROOT, parsed, a, sentence] & []            &                     & \texttt{SHIFT}     \\
+            $[$ROOT, parsed, sentence]    & []            & sentence$\to$a      & \texttt{LEFT-ARC}  \\
+            $[$ROOT, parsed]              & []            & parsed$\to$sentence & \texttt{RIGHT-ARC} \\
+            $[$ROOT]                      & []            & ROOT$\to$parsed     & \texttt{RIGHT-ARC} \\
         \end{tabular}\newline
     }\newline
 
     \part[2] A sentence containing $n$ words will be parsed in how many steps (in terms of $n$)? Briefly explain in 1-2 sentences why.
 
     \ifans{
+        We remove $n$ words from the buffer and push them onto the stack in $n$ steps (one at a time), and we pop them off the
+        stack also in $n$ steps (also one at a time). So, a sentence containing $n$ words will be parsed in $2n$ steps.
     }\newline
 
     \part[6] Implement the \texttt{\_\_init\_\_} and \texttt{parse\_step} functions in the \texttt{PartialParse} class in \texttt{parser\_transitions.py}. This implements the transition mechanics your parser will use. You can run basic (non-exhaustive) tests by running \texttt{python parser\_transitions.py part\_c}.
@@ -63,7 +67,7 @@ On each step, your parser will decide among the three transitions using a neural
             \State
             \State Initialize \texttt{partial\_parses} as a list of PartialParses, one for each sentence in \texttt{sentences}
             \State Initialize \texttt{unfinished\_parses} as a shallow copy of \texttt{partial\_parses}
-            %\State
+%\State
             \While{\texttt{unfinished\_parses} is not empty}
                 \State Take the first \texttt{batch\_size} parses in \texttt{unfinished\_parses} as a minibatch
                 \State Use the \texttt{model} to predict the next transition for each partial parse in the minibatch
