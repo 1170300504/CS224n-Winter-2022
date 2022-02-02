@@ -24,6 +24,7 @@ parser = argparse.ArgumentParser(description='Train neural dependency parser in 
 parser.add_argument('-d', '--debug', action='store_true', help='whether to enter debug mode')
 args = parser.parse_args()
 
+
 # -----------------
 # Primary Functions
 # -----------------
@@ -40,7 +41,6 @@ def train(parser, train_data, dev_data, output_path, batch_size=1024, n_epochs=1
     """
     best_dev_UAS = 0
 
-
     ### YOUR CODE HERE (~2-7 lines)
     ### TODO:
     ###      1) Construct Adam Optimizer in variable `optimizer`
@@ -52,6 +52,9 @@ def train(parser, train_data, dev_data, output_path, batch_size=1024, n_epochs=1
     ### Please see the following docs for support:
     ###     Adam Optimizer: https://pytorch.org/docs/stable/optim.html
     ###     Cross Entropy Loss: https://pytorch.org/docs/stable/nn.html#crossentropyloss
+
+    optimizer = optim.Adam(parser.model.parameters(), lr=lr)
+    loss_func = nn.CrossEntropyLoss()  # With default argument reduction='mean'.
 
     ### END YOUR CODE
 
@@ -103,6 +106,11 @@ def train_for_epoch(parser, train_data, dev_data, optimizer, loss_func, batch_si
             ###      4) Take step with the optimizer
             ### Please see the following docs for support:
             ###     Optimizer Step: https://pytorch.org/docs/stable/optim.html#optimizer-step
+
+            logits = parser.model(train_x)
+            loss = loss_func(logits,train_y)
+            loss.backward()
+            optimizer.step()
 
             ### END YOUR CODE
             prog.update(1)
