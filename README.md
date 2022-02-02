@@ -26,6 +26,9 @@ problem f). a4 (Winter 2022) updated. a5 (Winter 2022) has not been published.
 
 **Jan. 29, 2022** - Annotated PyTorch Tutorial (Jupyter Notebook) and fixed typos.
 
+**Feb. 2, 2022** - a3 completed.
+
+
 ### Other Information
 
 I'm not a Stanford student! :) The correctness of the answers is NOT guaranteed.
