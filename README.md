@@ -11,11 +11,11 @@ let me know!
 - [x] Assignment 2
 - [x] Assignment 3
 - [ ] **Assignment 4** :point_left:
-- [ ] ~~Assignment 5 (2019, ConvNets and subword modeling)~~
 - [ ] Assignment 5 (Self-Attention, Transformers, and Pretraining)
 - [ ] Default Final Project (IID SQuAD track)
 - [ ] Default Final Project (Robust QA track)
 - [x] PyTorch Tutorial
+- [ ] ~~Assignment 5 (2019, ConvNets and subword modeling)~~
 
 ### Update History
 
