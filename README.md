@@ -9,8 +9,8 @@ let me know!
 
 - [x] Assignment 1 (*may update to Winter 2022 version in the future*)
 - [x] Assignment 2
-- [ ] **Assignment 3** :point_left:
-- [ ] Assignment 4
+- [x] Assignment 3
+- [ ] **Assignment 4** :point_left:
 - [ ] ~~Assignment 5 (2019, ConvNets and subword modeling)~~
 - [ ] Assignment 5 (Self-Attention, Transformers, and Pretraining)
 - [ ] Default Final Project (IID SQuAD track)
