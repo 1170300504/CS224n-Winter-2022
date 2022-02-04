@@ -28,6 +28,8 @@ problem f). `a4` (Winter 2022) updated. `a5` (Winter 2022) has not been publishe
 
 **Feb. 2, 2022** - `a3` completed.
 
+**Feb. 4, 2022** - `a5` (Winter 2022) updated. Let's start `a4`!
+
 
 ### Other Information
 
