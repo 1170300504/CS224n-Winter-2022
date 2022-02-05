@@ -3,7 +3,11 @@
 This repository contains my solutions to the assignments of Stanford
 [*CS224n: Natural Language Processing with Deep Learning*](https://web.stanford.edu/class/cs224n/)
 (Winter 2022). If you find any errors, ***please***
-let me know!
+let me know by creating an issue or email me at siyuanq4@illinois.edu.
+
+### Important Information
+
+I'm NOT a Stanford student! :) Although my answers are scrupulously examined, their correctness is still NOT guaranteed.
 
 ### Current Progress
 
@@ -33,10 +37,3 @@ problem f). `a4` (Winter 2022) updated. `a5` (Winter 2022) has not been publishe
 **Feb. 5, 2022** - `a4` codes 50% completed.
 
 
-### Other Information
-
-I'm not a Stanford student! :) The correctness of the answers is NOT guaranteed.
-
-### My Email
-
-siyuanq4@illinois.edu
