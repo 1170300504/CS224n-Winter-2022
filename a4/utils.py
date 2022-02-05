@@ -18,16 +18,17 @@ import torch.nn as nn
 import torch.nn.functional as F
 import nltk
 import sentencepiece as spm
+
 nltk.download('punkt')
 
 
 def pad_sents(sents, pad_token):
     """ Pad list of sentences according to the longest sentence in the batch.
         The paddings should be at the end of each sentence.
-    @param sents (list[list[str]]): list of sentences, where each sentence
+    @param sents: (list[list[str]]) list of sentences, where each sentence
                                     is represented as a list of words
-    @param pad_token (str): padding token
-    @returns sents_padded (list[list[str]]): list of sentences where sentences shorter
+    @param pad_token: (str) padding token
+    @return sents_padded: (list[list[str]]) list of sentences where sentences shorter
         than the max length sentence are padded out with the pad_token, such that
         each sentences in the batch now has equal length.
     """
@@ -35,7 +36,9 @@ def pad_sents(sents, pad_token):
 
     ### YOUR CODE HERE (~6 Lines)
 
-
+    max_length = len(max(sents, key=lambda x: len(x)))
+    for sent in sents:
+        sents_padded.append(sent + [pad_token] * (max_length - len(sent)))
 
     ### END YOUR CODE
 
@@ -43,11 +46,11 @@ def pad_sents(sents, pad_token):
 
 
 def read_corpus(file_path, source, vocab_size=2500):
-    """ Read file, where each sentence is dilineated by a `\n`.
-    @param file_path (str): path to file containing corpus
-    @param source (str): "tgt" or "src" indicating whether text
+    """ Read file, where each sentence is delineated by a `\n`.
+    @param file_path: (str) path to file containing corpus
+    @param source: (str) "tgt" or "src" indicating whether text
         is of the source language or target language
-    @param vocab_size (int): number of unique subwords in
+    @param vocab_size: (int) number of unique subwords in
         vocabulary when reading and tokenizing
     """
     data = []
@@ -103,4 +106,3 @@ def batch_iter(data, batch_size, shuffle=False):
         tgt_sents = [e[1] for e in examples]
 
         yield src_sents, tgt_sents
-
