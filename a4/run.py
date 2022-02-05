@@ -67,7 +67,7 @@ def evaluate_ppl(model, dev_data, batch_size=32):
     @param model (NMT): NMT Model
     @param dev_data (list of (src_sent, tgt_sent)): list of tuples containing source and target sentence
     @param batch_size (batch size)
-    @returns ppl (perplixty on dev sentences)
+    @return ppl (perplixty on dev sentences)
     """
     was_training = model.training
     model.eval()
@@ -96,7 +96,7 @@ def compute_corpus_level_bleu_score(references: List[List[str]], hypotheses: Lis
     """ Given decoding results and reference sentences, compute corpus-level BLEU score.
     @param references (List[List[str]]): a list of gold-standard reference target sentences
     @param hypotheses (List[Hypothesis]): a list of hypotheses, one for each reference
-    @returns bleu_score: corpus-level BLEU score
+    @return bleu_score: corpus-level BLEU score
     """
     # remove the start and end tokens
     if references[0][0] == '<s>':
@@ -322,7 +322,7 @@ def beam_search(model: NMT, test_data_src: List[List[str]], beam_size: int, max_
     @param test_data_src (List[List[str]]): List of sentences (words) in source language, from test set.
     @param beam_size (int): beam_size (# of hypotheses to hold for a translation at every step)
     @param max_decoding_time_step (int): maximum sentence length that Beam search can produce
-    @returns hypotheses (List[List[Hypothesis]]): List of Hypothesis translations for every source sentence.
+    @return hypotheses (List[List[Hypothesis]]): List of Hypothesis translations for every source sentence.
     """
     was_training = model.training
     model.eval()

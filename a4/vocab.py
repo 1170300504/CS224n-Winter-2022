@@ -52,14 +52,14 @@ class VocabEntry(object):
         """ Retrieve word's index. Return the index for the unk
         token if the word is out of vocabulary.
         @param word (str): word to look up.
-        @returns index (int): index of word 
+        @return index (int): index of word 
         """
         return self.word2id.get(word, self.unk_id)
 
     def __contains__(self, word):
         """ Check if word is captured by VocabEntry.
         @param word (str): word to look up
-        @returns contains (bool): whether word is contained    
+        @return contains (bool): whether word is contained    
         """
         return word in self.word2id
 
@@ -70,7 +70,7 @@ class VocabEntry(object):
 
     def __len__(self):
         """ Compute number of words in VocabEntry.
-        @returns len (int): number of words in VocabEntry
+        @return len (int): number of words in VocabEntry
         """
         return len(self.word2id)
 
@@ -83,7 +83,7 @@ class VocabEntry(object):
     def id2word(self, wid):
         """ Return mapping of index to word.
         @param wid (int): word index
-        @returns word (str): word corresponding to index
+        @return word (str): word corresponding to index
         """
         return self.id2word[wid]
 
@@ -124,7 +124,7 @@ class VocabEntry(object):
         @param sents (List[List[str]]): list of sentences (words)
         @param device: device on which to load the tesnor, i.e. CPU or GPU
 
-        @returns sents_var: tensor of (max_sentence_length, batch_size)
+        @return sents_var: tensor of (max_sentence_length, batch_size)
         """
         word_ids = self.words2indices(sents)
         sents_t = pad_sents(word_ids, self['<pad>'])
@@ -137,7 +137,7 @@ class VocabEntry(object):
         @param corpus (list[str]): corpus of text produced by read_corpus function
         @param size (int): # of words in vocabulary
         @param freq_cutoff (int): if word occurs n < freq_cutoff times, drop the word
-        @returns vocab_entry (VocabEntry): VocabEntry instance produced from provided corpus
+        @return vocab_entry (VocabEntry): VocabEntry instance produced from provided corpus
         """
         vocab_entry = VocabEntry()
         word_freq = Counter(chain(*corpus))
@@ -194,7 +194,7 @@ class Vocab(object):
     def load(file_path):
         """ Load vocabulary from JSON dump.
         @param file_path (str): file path to vocab file
-        @returns Vocab object loaded from JSON dump
+        @return Vocab object loaded from JSON dump
         """
         entry = json.load(open(file_path, 'r'))
         src_word2id = entry['src_word2id']
