@@ -98,7 +98,7 @@ class NMT(nn.Module):
         @param source (List[List[str]]): list of source sentence tokens
         @param target (List[List[str]]): list of target sentence tokens, wrapped by `<s>` and `</s>`
 
-        @returns scores (Tensor): a variable/tensor of shape (b, ) representing the
+        @return scores (Tensor): a variable/tensor of shape (b, ) representing the
                                     log-likelihood of generating the gold-standard target sentence for
                                     each example in the input batch. Here b = batch size.
         """
@@ -205,7 +205,7 @@ class NMT(nn.Module):
         @param target_padded (Tensor): Gold-standard padded target sentences (tgt_len, b), where
                                        tgt_len = maximum target sentence length, b = batch size. 
 
-        @returns combined_outputs (Tensor): combined output tensor  (tgt_len, b,  h), where
+        @return combined_outputs (Tensor): combined output tensor  (tgt_len, b,  h), where
                                         tgt_len = maximum target sentence length, b = batch_size,  h = hidden size
         """
         # Chop off the <END> token for max length sentences.
@@ -279,10 +279,10 @@ class NMT(nn.Module):
         @param enc_masks (Tensor): Tensor of sentence masks shape (b, src_len),
                                     where b = batch size, src_len is maximum source length. 
 
-        @returns dec_state (tuple (Tensor, Tensor)): Tuple of tensors both shape (b, h), where b = batch size, h = hidden size.
+        @return dec_state (tuple (Tensor, Tensor)): Tuple of tensors both shape (b, h), where b = batch size, h = hidden size.
                 First tensor is decoder's new hidden state, second tensor is decoder's new cell.
-        @returns combined_output (Tensor): Combined output Tensor at timestep t, shape (b, h), where b = batch size, h = hidden size.
-        @returns e_t (Tensor): Tensor of shape (b, src_len). It is attention scores distribution.
+        @return combined_output (Tensor): Combined output Tensor at timestep t, shape (b, h), where b = batch size, h = hidden size.
+        @return e_t (Tensor): Tensor of shape (b, src_len). It is attention scores distribution.
                                 Note: You will not use this outside of this function.
                                       We are simply returning this value so that we can sanity check
                                       your implementation.
@@ -359,7 +359,7 @@ class NMT(nn.Module):
                                      src_len = max source length, h = hidden size. 
         @param source_lengths (List[int]): List of actual lengths for each of the sentences in the batch.
         
-        @returns enc_masks (Tensor): Tensor of sentence masks of shape (b, src_len),
+        @return enc_masks (Tensor): Tensor of sentence masks of shape (b, src_len),
                                     where src_len = max source length, h = hidden size.
         """
         enc_masks = torch.zeros(enc_hiddens.size(0), enc_hiddens.size(1), dtype=torch.float)
@@ -373,7 +373,7 @@ class NMT(nn.Module):
         @param src_sent (List[str]): a single source sentence (words)
         @param beam_size (int): beam size
         @param max_decoding_time_step (int): maximum number of time steps to unroll the decoding RNN
-        @returns hypotheses (List[Hypothesis]): a list of hypothesis, each hypothesis has two fields:
+        @return hypotheses (List[Hypothesis]): a list of hypothesis, each hypothesis has two fields:
                 value: List[str]: the decoded target sentence, represented as a list of words
                 score: float: the log-likelihood of the target sentence
         """
