@@ -1,4 +1,6 @@
-\graphicspath{ {images/} }
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{hyperref}\graphicspath{ {images/} }
 
 % real numbers R symbol
 \newcommand{\Real}{\mathbb{R}}
@@ -134,7 +136,11 @@ Note that this virtual environment \textbf{will not} be needed on the VM.\newlin
 
     First explain (in around three sentences) what effect the masks have on the entire attention computation.
     Then explain (in one or two sentences) why it is necessary to use the masks in this way.
+    \ifans {
+        Fuck you
+    } \fi \newline
 \end{parts}
+
 
 Now it's time to get things running! Execute the following to generate the necessary vocab file:
 
@@ -202,11 +208,12 @@ sh run.sh test
     \end{lstlisting}
     Please report the model's corpus BLEU Score. It should be larger than 10.
 
-    \part[4] (written) In class, we learned about dot product attention, multiplicative attention, and additive attention. As a reminder, dot product attention is $\be_{t,i} = \bs_t^T\bh_i$, multiplicative attention is $\be_{t,i} = \bs_t^T\bW\bh_i$, and additive attention is $\be_{t,i} = \bv^T \text{tanh}(\bW_1\bh_i + \bW_2\bs_t)$.
-
     \ifans{
         Corpus BLEU: 13.110528453394458
     } \fi \newline
+
+    \part[4] (written) In class, we learned about dot product attention, multiplicative attention, and additive attention. As a reminder, dot product attention is $\be_{t,i} = \bs_t^T\bh_i$, multiplicative attention is $\be_{t,i} = \bs_t^T\bW\bh_i$, and additive attention is $\be_{t,i} = \bv^T \text{tanh}(\bW_1\bh_i + \bW_2\bs_t)$.
+
 
     \begin{subparts}
         \subpart[2] Explain one advantage and one disadvantage of \textit{dot product attention} compared to multiplicative attention.
