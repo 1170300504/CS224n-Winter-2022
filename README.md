@@ -34,6 +34,6 @@ problem f). `a4` (Winter 2022) updated. `a5` (Winter 2022) has not been publishe
 
 **Feb. 4, 2022** - `a5` (Winter 2022) updated. Let's start `a4`!
 
-**Feb. 5, 2022** - `a4` codes 50% completed.
+**Feb. 6, 2022** - `a4` codes completed.
 
 
