@@ -30,55 +30,67 @@ import sentencepiece as spm
 
 
 class VocabEntry(object):
-    """ Vocabulary Entry, i.e. structure containing either
-    src or tgt language terms.
     """
+    Vocabulary Entry.
+    A structure containing either source (src) or target (tgt) language terms.
+    """
+
     def __init__(self, word2id=None):
-        """ Init VocabEntry Instance.
-        @param word2id (dict): dictionary mapping words 2 indices
+        """
+        Init VocabEntry Instance.
+        @param word2id: (dict) dictionary mapping words to indices.
         """
         if word2id:
             self.word2id = word2id
         else:
-            self.word2id = dict()
-            self.word2id['<pad>'] = 0   # Pad Token
-            self.word2id['<s>'] = 1 # Start Token
-            self.word2id['</s>'] = 2    # End Token
-            self.word2id['<unk>'] = 3   # Unknown Token
+            self.word2id = {}
+            self.word2id['<pad>'] = 0  # Pad Token
+            self.word2id['<s>'] = 1  # Start Token
+            self.word2id['</s>'] = 2  # End Token
+            self.word2id['<unk>'] = 3  # Unknown Token
         self.unk_id = self.word2id['<unk>']
-        self.id2word = {v: k for k, v in self.word2id.items()}
+        self.id2word = {v: k for k, v in self.word2id.items()}  # items() returns a list of (key, value) double pairs.
 
     def __getitem__(self, word):
-        """ Retrieve word's index. Return the index for the unk
-        token if the word is out of vocabulary.
-        @param word (str): word to look up.
-        @return index (int): index of word 
         """
-        return self.word2id.get(word, self.unk_id)
+        Retrieve word's index. Return the index for the <unk> token
+        if the word is out of vocabulary.
+        @param word: (str) word to look up.
+        @return: (int) index of word.
+        """
+        return self.word2id.get(word, self.unk_id)  # Default value is <unk>'s index.
 
     def __contains__(self, word):
-        """ Check if word is captured by VocabEntry.
-        @param word (str): word to look up
-        @return contains (bool): whether word is contained    
+        """
+        Check if word is captured by VocabEntry.
+        @param word: (str) word to look up.
+        @return: contains (bool) -> whether word is contained.
         """
         return word in self.word2id
 
     def __setitem__(self, key, value):
-        """ Raise error, if one tries to edit the VocabEntry.
         """
-        raise ValueError('vocabulary is readonly')
+        Raise error if someone attempts to edit the VocabEntry.
+        @param key: any.
+        @param value: any.
+        @return: None.
+        """
+        raise ValueError("Vocabulary is read-only!")
 
     def __len__(self):
-        """ Compute number of words in VocabEntry.
-        @return len (int): number of words in VocabEntry
+        """
+        Compute number of words in VocabEntry.
+        @return: len (int) -> number of words in VocabEntry.
         """
         return len(self.word2id)
 
     def __repr__(self):
-        """ Representation of VocabEntry to be used
-        when printing the object.
         """
-        return 'Vocabulary[size=%d]' % len(self)
+        Printable representation of VocabEntry to be used
+        when printing the object.
+        @return: A string representing the object.
+        """
+        return "Vocabulary[size=%d]" % len(self)
 
     def id2word(self, wid):
         """ Return mapping of index to word.
@@ -100,15 +112,16 @@ class VocabEntry(object):
             return self[word]
 
     def words2indices(self, sents):
-        """ Convert list of words or list of sentences of words
-        into list or list of list of indices.
-        @param sents (list[str] or list[list[str]]): sentence(s) in words
-        @return word_ids (list[int] or list[list[int]]): sentence(s) in indices
+        """
+        Convert list of words or list of sentences of words into
+        list or list of list of indices.
+        @param sents: (list[str] or list[list[str]]) sentence(s) in words.
+        @return: word_ids (list[int] or list[list[int]]) -> sentence(s) in indices.
         """
         if type(sents[0]) == list:
-            return [[self[w] for w in s] for s in sents]
+            return [[self[w] for w in s] for s in sents]  # __getitem__(self, word).
         else:
-            return [self[w] for w in sents]
+            return [self[w] for w in sents]  # For single-sentence corpus.
 
     def indices2words(self, word_ids):
         """ Convert list of indices into words.
@@ -148,7 +161,7 @@ class VocabEntry(object):
         for word in top_k_words:
             vocab_entry.add(word)
         return vocab_entry
-    
+
     @staticmethod
     def from_subword_list(subword_list):
         vocab_entry = VocabEntry()
@@ -160,6 +173,7 @@ class VocabEntry(object):
 class Vocab(object):
     """ Vocab encapsulating src and target langauges.
     """
+
     def __init__(self, src_vocab: VocabEntry, tgt_vocab: VocabEntry):
         """ Init Vocab.
         @param src_vocab (VocabEntry): VocabEntry for source language
@@ -214,13 +228,12 @@ def get_vocab_list(file_path, source, vocab_size):
     @param file_path (str): file path to corpus
     @param source (str): tgt or src
     @param vocab_size: desired vocabulary size
-    """ 
-    spm.SentencePieceTrainer.train(input=file_path, model_prefix=source, vocab_size=vocab_size)     # train the spm model
-    sp = spm.SentencePieceProcessor()                                                               # create an instance; this saves .model and .vocab files 
-    sp.load('{}.model'.format(source))                                                              # loads tgt.model or src.model
-    sp_list = [sp.id_to_piece(piece_id) for piece_id in range(sp.get_piece_size())]                 # this is the list of subwords
-    return sp_list 
-
+    """
+    spm.SentencePieceTrainer.train(input=file_path, model_prefix=source, vocab_size=vocab_size)  # train the spm model
+    sp = spm.SentencePieceProcessor()  # create an instance; this saves .model and .vocab files
+    sp.load('{}.model'.format(source))  # loads tgt.model or src.model
+    sp_list = [sp.id_to_piece(piece_id) for piece_id in range(sp.get_piece_size())]  # this is the list of subwords
+    return sp_list
 
 
 if __name__ == '__main__':
@@ -229,7 +242,7 @@ if __name__ == '__main__':
     print('read in source sentences: %s' % args['--train-src'])
     print('read in target sentences: %s' % args['--train-tgt'])
 
-    src_sents = get_vocab_list(args['--train-src'], source='src', vocab_size=21000)         
+    src_sents = get_vocab_list(args['--train-src'], source='src', vocab_size=21000)
     tgt_sents = get_vocab_list(args['--train-tgt'], source='tgt', vocab_size=8000)
     vocab = Vocab.build(src_sents, tgt_sents)
     print('generated vocabulary, source %d words, target %d words' % (len(src_sents), len(tgt_sents)))

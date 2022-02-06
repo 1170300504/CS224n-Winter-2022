@@ -106,6 +106,8 @@ class NMT(nn.Module):
         source_lengths = [len(s) for s in source]
 
         # Convert list of lists into tensors
+
+        # Convert list of lists into tensors
         source_padded = self.vocab.src.to_input_tensor(source, device=self.device)  # Tensor: (src_len, b)
         target_padded = self.vocab.tgt.to_input_tensor(target, device=self.device)  # Tensor: (tgt_len, b)
 
@@ -384,18 +386,18 @@ class NMT(nn.Module):
         """
         enc_masks = torch.zeros(enc_hiddens.size(0), enc_hiddens.size(1), dtype=torch.float)
         for e_id, src_len in enumerate(source_lengths):
-            enc_masks[e_id, src_len:] = 1
+            enc_masks[e_id, src_len:] = 1  # Masks start from end of sequence.
         return enc_masks.to(self.device)
 
     def beam_search(self, src_sent: List[str], beam_size: int = 5, max_decoding_time_step: int = 70) -> List[
         Hypothesis]:
         """ Given a single source sentence, perform beam search, yielding translations in the target language.
-        @param src_sent (List[str]): a single source sentence (words)
-        @param beam_size (int): beam size
-        @param max_decoding_time_step (int): maximum number of time steps to unroll the decoding RNN
-        @return hypotheses (List[Hypothesis]): a list of hypothesis, each hypothesis has two fields:
-                value: List[str]: the decoded target sentence, represented as a list of words
-                score: float: the log-likelihood of the target sentence
+        @param src_sent: (List[str]) a single source sentence (words)
+        @param beam_size: (int) beam size
+        @param max_decoding_time_step: (int) maximum number of time steps to unroll the decoding RNN
+        @return hypotheses: (List[Hypothesis]) a list of hypothesis, each hypothesis has two fields:
+                value: (List[str]) the decoded target sentence, represented as a list of words
+                score: (float) the log-likelihood of the target sentence
         """
         src_sents_var = self.vocab.src.to_input_tensor([src_sent], self.device)
 
