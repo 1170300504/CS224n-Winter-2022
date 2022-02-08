@@ -14,8 +14,8 @@ I'm NOT a Stanford student! :) Although my answers are scrupulously examined, th
 - [x] Assignment 1 (*may update to Winter 2022 version in the future*)
 - [x] Assignment 2
 - [x] Assignment 3
-- [ ] **Assignment 4** :point_left:
-- [ ] Assignment 5 (Self-Attention, Transformers, and Pretraining)
+- [x] Assignment 4
+- [ ] **Assignment 5** (Self-Attention, Transformers, and Pretraining) :point_left:
 - [ ] Default Final Project (IID SQuAD track)
 - [ ] Default Final Project (Robust QA track)
 - [x] PyTorch Tutorial
