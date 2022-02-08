@@ -1,13 +1,26 @@
-\graphicspath{ {images/} }
+\usepackage{hyperref}\graphicspath{ {images/} }
 
 \titledquestion{Analyzing NMT Systems}[33]
 
 \begin{parts}
-    \part[3] In part 1, we modeled our NMT problem at a subword-level. That is, given a sentence in the source language, we looked up subword components from an embeddings matrix. Alternatively, we could have modeled the NMT problem at the word-level, by looking up whole words from the embeddings matrix. Why might it be important to model our Cherokee-to-English NMT problem at the subword-level vs. the whole word-level? (Hint: Cherokee is a polysynthetic language.)
+    \part[3] In part 1, we modeled our NMT problem at a subword-level. That is, given a sentence in the source language, we looked up subword components from an embeddings matrix. Alternatively, we could have modeled the NMT problem at the word-level, by looking up whole words from the embeddings matrix. Why might it be important to model our Cherokee-to-English NMT problem at the subword-level vs. the whole word-level? (Hint: Cherokee is a polysynthetic language.) \\
+    \ifans{
+        Since Cherokee is a polysynthetic language, it may have a very large vocabulary and a large embedding matrix
+        may be needed to implement effective word-level NMT models, which is impractical. Also, subword models may capture
+        morphosyntactic relations for polysynthetic languages more effectively.
+    } \fi \\
 
-    \part[3] Transliteration is the representation of letters or words in the characters of another alphabet or script based on phonetic similarity. For example, the transliteration of {\cherokeefam Ꮳ⁠Ꮕ⁠Ꮤ⁠Ꮝ⁠Ꭺ} (which translates to "do you know") from Cherokee letters to Latin script is tsanvtasgo. In the Cherokee language, "ts-" is a common prefix in many words, but the Cherokee character {\cherokeefam Ꮳ} is "tsa". Using this example, explain why when modeling our Cherokee-to-English NMT problem at the subword-level, training on transliterated Cherokee text may improve performance over training on original Cherokee characters.(Hint: A prefix is a morpheme.)
+    \part[3] Transliteration is the representation of letters or words in the characters of another alphabet or script based on phonetic similarity. For example, the transliteration of {\cherokeefam Ꮳ⁠Ꮕ⁠Ꮤ⁠Ꮝ⁠Ꭺ} (which translates to "do you know") from Cherokee letters to Latin script is tsanvtasgo. In the Cherokee language, "ts-" is a common prefix in many words, but the Cherokee character {\cherokeefam Ꮳ} is "tsa". Using this example, explain why when modeling our Cherokee-to-English NMT problem at the subword-level, training on transliterated Cherokee text may improve performance over training on original Cherokee characters.(Hint: A prefix is a morpheme.) \\
+    \ifans{
+        Training on transliterated Cherokee text could make it easier to separate words into morphemes, because the original
+        Cherokee characters may contain inseparable combinations of morphemes.
+    } \fi \\
 
-    \part[3] One challenge of training successful NMT models is lack of language data, particularly for resource-scarce languages like Cherokee. One way of addressing this challenge is with multilingual training, where we train our NMT on multiple languages (including Cherokee). You can read more about multilingual training here:\newline \url{https://ai.googleblog.com/2019/10/exploring-massively-multilingual.html}.\newline How does multilingual training help in improving NMT performance with low-resource languages?
+    \part[3] One challenge of training successful NMT models is lack of language data, particularly for resource-scarce languages like Cherokee. One way of addressing this challenge is with multilingual training, where we train our NMT on multiple languages (including Cherokee). You can read more about multilingual training here:\newline \url{https://ai.googleblog.com/2019/10/exploring-massively-multilingual.html}.\newline How does multilingual training help in improving NMT performance with low-resource languages?\\
+    \ifans{
+        Multilingual model can somehow transfer parameters from relatively high-resource languages and improve NMT performance
+        with low-resource languages.
+    } \fi \\
 
     \part[6] Here we present a series of errors we found in the outputs of our NMT model (which is the same as the one you just trained). For each example of a reference (i.e., `gold') English translation, and NMT (i.e., `model') English translation, please:
 
@@ -23,24 +36,49 @@
         \subpart[2]
         \textbf{Source Sentence:} \textit{{\cherokeefam ᏄᏩᏁᎰᎾ ᏕᎪᏣᎳᎩᏍᎬ, ᎯᎠ ᏄᏍᏕ ᏚᏏᎳᏛ: ᏧᏓᎴᏅᏓ ᏕᎪᏒᏍᎦ ᏧᏏᎳᏛᏙᏗ ᎠᏍᏓ ᎧᏅᏂᏍᎩ.        }}\newline
         \textbf{Reference Translation:} \textit{When \underline{she} was finished ripping things out, \underline{her} web looked something like this: }\newline
-        \textbf{NMT Translation:} \textit{When \underline{it} was gone out of the web, \underline{he} said the web in the web.}
+        \textbf{NMT Translation:} \textit{When \underline{it} was gone out of the web, \underline{he} said the web in the web.} \\
+        \ifans{
+            The NMT model uses "it" and "he" to refer to the same object. It seems that the NMT model has not really learned the
+            target language grammar. To fix this, run more epoches, add more training data, and increase the size of the hidden layers may help.
+        } \fi \\
 
         \subpart[2]
         \textbf{Source Translation}: \textit{{\cherokeefam ᎤᏍᏗ ᎢᏈᎬᎢ, ᎦᏙᏊᎢ? ᎤᏓᏛᏛᏁᎢ ᎤᏍᏗ ᎠᏧᏣ.}}\newline
         \textbf{Reference Translation}: \textit{What's wrong \underline{little} tree? the boy asked.}\newline
-        \textbf{NMT Translation}: \textit{ The \underline{little little little little little} tree? asked him.}
+        \textbf{NMT Translation}: \textit{ The \underline{little little little little little} tree? asked him.} \\
+        \ifans{
+            The NMT Translation repeated the word "little" for 5 times. It is possible that the model attends to the same parts
+            of the source sentence and calculated a similar probability distribution. It may help to implement self-attention
+            mechanism for the NMT model.
+        } \fi \\
 
         \subpart[2]
         \textbf{Source Sentence:} \textit{{\cherokeefam “ᎤᏓᎸᏉᏗ ᏂᎨᏒᎾ,” ᎤᏛᏁ ᎰᎻ.}}\newline
         \textbf{Reference Translation:} \textit{\underline{“ ‘Humble,’ ”} said Mr. Zuckerman}\newline
-        \textbf{NMT Translation:} \textit{\underline{“It’s not a lot,”} said Mr. Zuckerman.}
+        \textbf{NMT Translation:} \textit{\underline{“It’s not a lot,”} said Mr. Zuckerman.}\\
+        \ifans{
+            The model used "it's not a lot" to express the meaning of "humble." It is possible that the training data of the target
+            language does not contain the word "humble." To fix the problem, add more training data to the model or apply a character-based/hybrid NMT model
+            in this situation.
+        } \fi \\
     \end{subparts}
 
     \part[4] Now it is time to explore the outputs of the model that you have trained! The test-set translations your model produced in question \texttt{1-i} should be located in \texttt{outputs/test\_outputs.txt}.
     \begin{subparts}
-        \subpart[2] Find a line where the predicted translation is correct for a long (4 or 5 word) sequence of words. Check the training target file (English); does the training file contain that string (almost) verbatim? If so or if not, what does this say about what the MT system learned to do?
+        \subpart[2] Find a line where the predicted translation is correct for a long (4 or 5 word) sequence of words. Check the training target file (English); does the training file contain that string (almost) verbatim? If so or if not, what does this say about what the MT system learned to do? \\
+        \ifans{
+            Correct sequence of words: \textit{I want to see a little tree, and the frog}. \\
+            The string \textit{I want to see} found verbatim in the training data. This indicates that the MT system somehow
+            built a language model based on the target training data.
 
-        \subpart[2] Find a line where the predicted translation starts off correct for a long (4 or 5 word) sequence of words, but then diverges (where the latter part of the sentence seems totally unrelated). What does this say about the model's decoding behavior?
+        } \fi \\
+
+        \subpart[2] Find a line where the predicted translation starts off correct for a long (4 or 5 word) sequence of words, but then diverges (where the latter part of the sentence seems totally unrelated). What does this say about the model's decoding behavior? \\
+        \ifans{\\
+        \textit{It was tired of it, it was tired of the day, and in the day of the day he had tired of the morning.} \\
+        It seems that the decoder is not aware of what it said a few time-steps ago.
+
+        } \fi \\
     \end{subparts}
 
     \part[14] BLEU score is the most commonly used automatic evaluation metric for NMT systems. It is usually calculated across the entire test set, but here we will consider BLEU defined for a single example.\footnote{This definition of sentence-level BLEU score matches the \texttt{sentence\_bleu()} function in the \texttt{nltk} Python package. Note that the NLTK function is sensitive to capitalization. In this question, all text is lowercased, so capitalization is irrelevant. \\ \url{http://www.nltk.org/api/nltk.translate.html\#nltk.translate.bleu_score.sentence_bleu}
@@ -80,12 +118,40 @@
         Please compute the BLEU scores for $\bc_1$ and $\bc_2$. Let $\lambda_i=0.5$ for $i\in\{1,2\}$ and $\lambda_i=0$ for $i\in\{3,4\}$ (\textbf{this means we ignore 3-grams and 4-grams}, i.e., don't compute $p_3$ or $p_4$). When computing BLEU scores, show your working (i.e., show your computed values for $p_1$, $p_2$, $len(c)$, $len(r)$ and $BP$). Note that the BLEU scores can be expressed between 0 and 1 or between 0 and 100. The code is using the 0 to 100 scale while in this question we are using the \textbf{0 to 1} scale.
         \newline
 
-        Which of the two NMT translations is considered the better translation according to the BLEU Score? Do you agree that it is the better translation?
+        Which of the two NMT translations is considered the better translation according to the BLEU Score? Do you agree that it is the better translation?\\
+        \ifans{ \\
+        For $\bc_1$, $p_1 = \frac{12}{13} $, $p_2 = \frac{10}{12}$, $len(c) = 13$, $len(r) = 13$, $BP=1$,\\ $BLEU = BP \times \exp(0.5\log{p_1}+0.5\log{p_2}) = 0.8770580193070293$.\\~\\
+        For $\bc_2$, $p_1 = \frac{11}{13} $, $p_2 = \frac{9}{12}$, $len(c) = 13$, $len(r) = 13$, $BP=1$,\\ $BLEU = BP \times \exp(0.5\log{p_1}+0.5\log{p_2}) = 0.7966275068156915$.\\~\\
+        According to the BLEU Score, $\bc_1$ is considered the better translation. I agree that it is the better translation.
+        } \fi \\
 
-        \subpart[5] Our hard drive was corrupted and we lost Reference Translation $\br_2$. Please recompute BLEU scores for $\bc_1$ and $\bc_2$, this time with respect to $\br_1$ only. Which of the two NMT translations now receives the higher BLEU score? Do you agree that it is the better translation?
+        \subpart[5] Our hard drive was corrupted and we lost Reference Translation $\br_2$. Please recompute BLEU scores for $\bc_1$ and $\bc_2$, this time with respect to $\br_1$ only. Which of the two NMT translations now receives the higher BLEU score? Do you agree that it is the better translation?\\
+        \ifans{\\
+        For $\bc_1$, $p_1 = \frac{10}{13} $, $p_2 = \frac{8}{12}$, $len(c) = 13$, $len(r) = 13$, $BP=1$,\\ $BLEU = BP \times \exp(0.5\log{p_1}+0.5\log{p_2}) = 0.7161148740394329$.\\~\\
+        For $\bc_2$, $p_1 = \frac{11}{13} $, $p_2 = \frac{9}{12}$, $len(c) = 13$, $len(r) = 13$, $BP=1$,\\ $BLEU = BP \times \exp(0.5\log{p_1}+0.5\log{p_2}) = 0.7966275068156915$.\\~\\
+        According to the BLEU Score, $\bc_2$ is considered the better translation. I don't agree that it is the better translation because it is confusing and contains some syntactic errors.
+        } \fi \\
 
-        \subpart[2] Due to data availability, NMT systems are often evaluated with respect to only a single reference translation. Please explain (in a few sentences) why this may be problematic. In your explanation, discuss how the BLEU score metric assesses the quality of NMT translations when there are multiple reference transitions versus a single reference translation.
-
-        \subpart[2] List two advantages and two disadvantages of BLEU, compared to human evaluation, as an evaluation metric for Machine Translation.
+        \subpart[2] Due to data availability, NMT systems are often evaluated with respect to only a single reference translation. Please explain (in a few sentences) why this may be problematic. In your explanation, discuss how the BLEU score metric assesses the quality of NMT translations when there are multiple reference transitions versus a single reference translation.\\
+        \ifans{
+            When a candidate translation is compared to a single reference translation, the representation of the relevant n-grams
+            that should be matched to obtain a high BLEU Score is noisy.
+            Therefore, the BLEU score for an appropriate translation may also be relatively low.
+            When there are multiple reference translations, the NMT system gets more flexibility to interpret and decode the source
+            sentence and is more likely to get a fair BLEU Score.
+        } \fi \\
+        \subpart[2] List two advantages and two disadvantages of BLEU, compared to human evaluation, as an evaluation metric for Machine Translation.\\
+        \ifans{\\
+        \textbf{Advantages}
+            \begin{itemize}
+                \item BLEU makes NMT evaluation fast, economical.
+                \item It is language independent and easy to understand.
+            \end{itemize}
+            \textbf{Disadvantages}
+            \begin{itemize}
+                \item Its true quality remains far below human translations.
+                \item It does not really consider semantics or sentence structures.
+            \end{itemize}
+        } \fi \\
     \end{subparts}
 \end{parts}
