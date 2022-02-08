@@ -7,7 +7,7 @@ let me know by creating an issue or email me at siyuanq4@illinois.edu.
 
 ### Important Information
 
-I'm NOT a Stanford student! :) Although I scrupulously examined my answers, the correctness is still NOT guaranteed.
+I'm NOT a Stanford student! :) Although I have scrupulously examined my answers, the correctness is still NOT guaranteed.
 
 ### Current Progress
 
