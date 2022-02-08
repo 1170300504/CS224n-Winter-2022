@@ -137,7 +137,10 @@ Note that this virtual environment \textbf{will not} be needed on the VM.\newlin
     First explain (in around three sentences) what effect the masks have on the entire attention computation.
     Then explain (in one or two sentences) why it is necessary to use the masks in this way.
     \ifans {
-        Fuck you
+        The function masks the paddings in all sentences to boolean value 1 and other tokens to 0. They are then converted to $-\infty$ in attention score $\be_t$.
+        In the calculation of $\alpha_t$, they become zero since $\exp(-\infty) = 0$.
+        Therefore, they have zero effect in the attention output $\ba_t$ (weighted average).
+        This is necessary since $\texttt{<pad>}$ tokens are not part of the original source data and do not contain meaningful information and should not be attended to or affect the attention output.
     } \fi \newline
 \end{parts}
 
@@ -219,4 +222,16 @@ sh run.sh test
         \subpart[2] Explain one advantage and one disadvantage of \textit{dot product attention} compared to multiplicative attention.
         \subpart[2] Explain one advantage and one disadvantage of \textit{additive attention} compared to multiplicative attention.
     \end{subparts}
+    \ifans{
+        \begin{enumerate}[i.]
+            \item \\
+            \textbf{Advantage}: The \textit{dot product attention} does not require additional model parameters and is easier to compute. \\
+            \textbf{Disadvantage}: Vectors $\bs_t$ (the \textit{query}) and $\bh_i$ (the \textit{key}) must be of the same dimension.
+            The \textit{multiplicative attention}, however, has a projection matrix $\bW$.
+            \item
+            \textbf{Advantage}: The \textit{additive attention} introduces a non-linearity ($\tanh$) and separate weight matrices for two input vectors.
+            Therefore, it is more likely to have a more complex functionality and may have a better performance.\\
+            \textbf{Disadvantage}: It is more computationally expensive to train.
+        \end{enumerate}
+    } \fi \newline
 \end{parts}
