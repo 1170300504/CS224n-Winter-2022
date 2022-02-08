@@ -19,6 +19,7 @@ I'm NOT a Stanford student! :) Although I have scrupulously examined my answers,
 - [ ] Default Final Project (IID SQuAD track)
 - [ ] Default Final Project (Robust QA track)
 - [x] PyTorch Tutorial
+- [ ] Hugging Face Transformer Tutorial
 - [ ] ~~Assignment 5 (2019, ConvNets and subword modeling)~~
 
 ### Update History
