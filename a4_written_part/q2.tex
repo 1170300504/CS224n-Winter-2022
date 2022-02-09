@@ -1,4 +1,5 @@
-\usepackage{hyperref}\graphicspath{ {images/} }
+\usepackage{hyperref}
+\usepackage{graphicx}\graphicspath{ {images/} }
 
 \titledquestion{Analyzing NMT Systems}[33]
 
@@ -10,7 +11,7 @@
         morphosyntactic relations for polysynthetic languages more effectively.
     } \fi \\
 
-    \part[3] Transliteration is the representation of letters or words in the characters of another alphabet or script based on phonetic similarity. For example, the transliteration of {\cherokeefam Ꮳ⁠Ꮕ⁠Ꮤ⁠Ꮝ⁠Ꭺ} (which translates to "do you know") from Cherokee letters to Latin script is tsanvtasgo. In the Cherokee language, "ts-" is a common prefix in many words, but the Cherokee character {\cherokeefam Ꮳ} is "tsa". Using this example, explain why when modeling our Cherokee-to-English NMT problem at the subword-level, training on transliterated Cherokee text may improve performance over training on original Cherokee characters.(Hint: A prefix is a morpheme.) \\
+    \part[3] Transliteration is the representation of letters or words in the characters of another alphabet or script based on phonetic similarity. For example, the transliteration of {\cherokeefam Ꮳ⁠Ꮕ⁠Ꮤ⁠Ꮝ⁠Ꭺ} (which translates to ``do you know") from Cherokee letters to Latin script is tsanvtasgo. In the Cherokee language, ``ts-" is a common prefix in many words, but the Cherokee character {\cherokeefam Ꮳ} is ``tsa". Using this example, explain why when modeling our Cherokee-to-English NMT problem at the subword-level, training on transliterated Cherokee text may improve performance over training on original Cherokee characters.(Hint: A prefix is a morpheme.) \\
     \ifans{
         Training on transliterated Cherokee text could make it easier to separate words into morphemes, because the original
         Cherokee characters may contain inseparable combinations of morphemes.
@@ -38,7 +39,7 @@
         \textbf{Reference Translation:} \textit{When \underline{she} was finished ripping things out, \underline{her} web looked something like this: }\newline
         \textbf{NMT Translation:} \textit{When \underline{it} was gone out of the web, \underline{he} said the web in the web.} \\
         \ifans{
-            The NMT model uses "it" and "he" to refer to the same object. It seems that the NMT model has not really learned the
+            The NMT model uses ``it" and ``he" to refer to the same object. It seems that the NMT model has not really learned the
             target language grammar. To fix this, run more epoches, add more training data, and increase the size of the hidden layers may help.
         } \fi \\
 
@@ -47,7 +48,7 @@
         \textbf{Reference Translation}: \textit{What's wrong \underline{little} tree? the boy asked.}\newline
         \textbf{NMT Translation}: \textit{ The \underline{little little little little little} tree? asked him.} \\
         \ifans{
-            The NMT Translation repeated the word "little" for 5 times. It is possible that the model attends to the same parts
+            The NMT Translation repeated the word ``little" for 5 times. It is possible that the model attends to the same parts
             of the source sentence and calculated a similar probability distribution. It may help to implement self-attention
             mechanism for the NMT model.
         } \fi \\
@@ -57,8 +58,8 @@
         \textbf{Reference Translation:} \textit{\underline{“ ‘Humble,’ ”} said Mr. Zuckerman}\newline
         \textbf{NMT Translation:} \textit{\underline{“It’s not a lot,”} said Mr. Zuckerman.}\\
         \ifans{
-            The model used "it's not a lot" to express the meaning of "humble." It is possible that the training data of the target
-            language does not contain the word "humble." To fix the problem, add more training data to the model or apply a character-based/hybrid NMT model
+            The model used ``it's not a lot" to express the meaning of ``humble." It is possible that the training data of the target
+            language does not contain the word ``humble." To fix the problem, add more training data to the model or apply a character-based/hybrid NMT model
             in this situation.
         } \fi \\
     \end{subparts}
