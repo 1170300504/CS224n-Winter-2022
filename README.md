@@ -15,7 +15,7 @@ I'm NOT a Stanford student! :) Although I have scrupulously examined my answers,
 - [x] Assignment 2
 - [x] Assignment 3
 - [x] Assignment 4
-- [ ] **Assignment 5** (Self-Attention, Transformers, and Pretraining) :point_left:
+- [ ] **Assignment 5 (Self-Attention, Transformers, and Pretraining)** :point_left:
 - [ ] Default Final Project (IID SQuAD track)
 - [ ] Default Final Project (Robust QA track)
 - [x] PyTorch Tutorial
@@ -38,5 +38,7 @@ problem f). `a4` (Winter 2022) updated. `a5` (Winter 2022) has not been publishe
 **Feb. 6, 2022** - `a4` codes completed.
 
 **Feb. 8, 2022** - `a4` all cleared.
+
+**Feb. 9, 2022** - `a5` written part updated.
 
 
