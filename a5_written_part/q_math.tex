@@ -1,5 +1,3 @@
-\usepackage{amssymb}\graphicspath{ {images/} }
-
 \titledquestion{Attention exploration}[22]
 \label{sec:analysis}
 
@@ -19,7 +17,8 @@ Observe that the output $c\in\mathbb{R}^d$ is an average over the value vectors 
     \part[4] \textbf{Copying in attention.} One advantage of attention is that it's particularly easy to ``copy'' a value vector to the output $c$. In this problem, we'll motivate why this is the case.
 
     \begin{subparts}
-        \subpart[1] \textbf{Explain} why $\alpha$ can be interpreted as a categorical probability distribution.
+        \subpart[1]
+        \textbf{Explain} why $\alpha$ can be interpreted as a categorical probability distribution.
         \begin{answer}
             The \textit{key} vectors correspond to $n$ possible \textbf{discrete} categories.\\
             Since $\alpha_i = \frac{\exp(k_i^\top q)}{\sum_{j=1}^{n} \exp(k_j^\top q)}$, $0 \leq \alpha_i \leq 1$ must hold.
