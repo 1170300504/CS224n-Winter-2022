@@ -1,4 +1,4 @@
-\graphicspath{ {images/} }
+\usepackage{amssymb}\graphicspath{ {images/} }
 
 \titledquestion{Attention exploration}[22]
 \label{sec:analysis}
@@ -28,15 +28,17 @@ Observe that the output $c\in\mathbb{R}^d$ is an average over the value vectors 
         \end{answer}
         \subpart[2] The distribution $\alpha$ is typically relatively ``diffuse''; the probability mass is spread out between many different $\alpha_i$. However, this is not always the case. \textbf{Describe} (in one sentence) under what conditions the categorical distribution $\alpha$ puts almost all of its weight on some $\alpha_j$, where $j \in \{1, \ldots, n\}$ (i.e. $\alpha_j \gg \sum_{i \neq j} \alpha_i$). What must be true about the query $q$ and/or the keys $\{k_1,\dots,k_n\}$?
         \begin{answer}
-
+            $k_j^\top q \gg k_i^\top q $ must hold for any $i$, where $i \in \{1,\ldots,n\} \land i \neq j$.
         \end{answer}
         \subpart[1] Under the conditions you gave in (ii),  \textbf{describe} what properties the output $c$ might have.
         \begin{answer}
-            Please write your answer here.
+            $c \approx v_j$, where $\alpha_j \gg \sum_{i \neq j} \alpha_i$.
         \end{answer}
         \subpart[1] \textbf{Explain} (in two sentences or fewer) what your answer to (ii) and (iii) means intuitively. \\
         \begin{answer}
-            Please write your answer here.
+            If the \textit{query} $q$ is very similar to a single \textit{key} vector and almost orthogonal to the rest of them,
+            the attention output $c$ could be almost identical to the corresponding \textit{value} vector of this \textit{key} vector,
+            as if ``copied" directly.
         \end{answer}
 
     \end{subparts}
