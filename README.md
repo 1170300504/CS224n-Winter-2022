@@ -24,8 +24,7 @@ Unfortunately, I'm not a Stanford student! :) Although I have scrupulously exami
 
 ### Update History
 
-**Jan. 27, 2022** - `a1` completed (Winter 2021 version, deprecated functions fixed). `a2` partially completed (up to
-problem f). `a4` (Winter 2022) updated. `a5` (Winter 2022) has not been published.
+**Jan. 27, 2022** - `a1` completed (Winter 2021 version, deprecated functions fixed).
 
 **Jan. 28, 2022** - `a2` completed.
 
