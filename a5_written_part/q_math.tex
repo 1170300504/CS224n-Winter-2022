@@ -1,4 +1,5 @@
-\titledquestion{Attention exploration}[22]
+\usepackage{hyperref}
+\usepackage{amsmath}\titledquestion{Attention exploration}[22]
 \label{sec:analysis}
 
 Multi-headed self-attention is the core modeling component of Transformers.
@@ -62,14 +63,25 @@ Observe that the output $c\in\mathbb{R}^d$ is an average over the value vectors 
         \textbf{Hint:} Given that the vectors $\{a_1, a_2, \ldots, a_m\}$ are both \textit{orthogonal} and \textit{form a basis} for $v_a$, we know that there exist some $c_1, c_2, \ldots, c_m$ such that $v_a = c_1 a_1 + c_2 a_2 + \cdots + c_m a_m$. Can you create a vector of these weights $c$?
 
         \begin{answer}
-            Please write your answer here.
+            \newline
+            We have $a_j^\top v_a = c_1 a_j^\top a_1 + \cdots + c_j a_j^\top a_j + \cdots + c_m a_j^\top a_m = c_j$ and
+            $a_j^\top v_b = d_1 a_j^\top b_1 + \cdots + d_m a_j^\top b_p = 0$, where $1 \leq j \leq m$. Let $M =
+            \begin{bmatrix}
+                a_1^\top \\
+                \vdots   \\
+                a_m^\top
+            \end{bmatrix}
+            $, we have $M s = M (v_a + v_b) = v_a$.
         \end{answer}
 
         \subpart[4] As before, let $v_a$ and $v_b$ be two value vectors corresponding to key vectors $k_a$ and $k_b$, respectively.
         Assume that (1) all key vectors are orthogonal, so $k_i^\top k_j = 0$ for all $i \neq j$; and (2) all key vectors have norm $1$.\footnote{Recall that a vector $x$ has norm 1 iff $x^\top x = 1$.}
         \textbf{Find an expression} for a query vector $q$ such that $c \approx \frac{1}{2}(v_a + v_b)$. \footnote{Hint: while the softmax function will never \textit{exactly} average the two vectors, you can get close by using a large scalar multiple in the expression.}
         \begin{answer}
-            Please write your answer here.
+            \newline
+            We want $\alpha_1 \approx \alpha_2 \approx \frac{1}{2}$, so the attention scores $k_a^\top q$ and $k_b^\top q$
+            must be close and their sum must be dominating.
+            So $q = \beta (k_a + k_b)$ suffices, where $\beta \gg 0$ (large scalar multiple).
         \end{answer}
     \end{subparts}
 
@@ -84,7 +96,8 @@ Observe that the output $c\in\mathbb{R}^d$ is an average over the value vectors 
         \subpart[2] Assume that the covariance matrices are $\Sigma_i = \alpha I \forall i \in \{1, 2, \ldots, n\}$, for vanishingly small $\alpha$.
         Design a query $q$ in terms of the $\mu_i$ such that as before, $c\approx \frac{1}{2}(v_a + v_b)$, and provide a brief argument as to why it works.
         \begin{answer}
-            Please write your answer here.
+            It is obvious that $k_i \approx \mu_i$ here since $\alpha$ is \textit{vanishingly small}.
+            So $q = \beta (k_a + k_b)$ suffices, where $\beta \gg 0$.
         \end{answer}
 
         \subpart[3] Though single-headed attention is resistant to small perturbations in the keys, some types of larger perturbations may pose a bigger issue. Specifically, in some cases, one key vector $k_a$ may be larger or smaller in norm than the others, while still pointing in the same direction as $\mu_a$. As an example, let us consider a covariance for item $a$ as $\Sigma_a = \alpha I + \frac{1}{2}(\mu_a\mu_a^\top)$ for vanishingly small $\alpha$ (as shown in figure \ref{ka_plausible}). This causes $k_a$ to point in roughly the same direction as $\mu_a$, but with large variances in magnitude. Further, let $\Sigma_i = \alpha I$ for all $i \neq a$.
@@ -99,7 +112,17 @@ Observe that the output $c\in\mathbb{R}^d$ is an average over the value vectors 
         When you sample $\{k_1,\dots,k_n\}$ multiple times, and use the $q$ vector that you defined in part i., what qualitatively do you expect the vector $c$ will look like for different samples?
 
         \begin{answer}
-            Please write your answer here.
+            \\
+            Since $\alpha$ is vanishingly small, we may \textbf{assume} $k_a \approx \gamma \mu_a$, where $\gamma \sim \mathcal{N}(1, \frac{1}{2})$.
+            Also, $k_i^\top q \approx 0$ still holds for $i \notin \{a, b\}$, and $k_b^\top q = \beta \gg 0$.
+            Therefore, \\
+            \[
+                \begin{aligned}
+                    c &\approx \frac{\exp (\gamma \beta)}{\exp(\gamma \beta) + \exp(\beta)} v_a + \frac{\exp (\beta)}{\exp(\gamma \beta) + \exp(\beta)} v_b \\
+                    &= \frac{1}{\exp((1-\gamma) \beta) + 1} v_a + \frac{1}{\exp((\gamma - 1) \beta) + 1} v_b \\
+                \end{aligned}
+            \]
+            So $c$ will oscillates between $v_a$ and $v_b$ as we sample $k_i$ multiple times.
         \end{answer}
     \end{subparts}
 
