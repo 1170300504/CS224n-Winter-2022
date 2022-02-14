@@ -117,20 +117,18 @@ elif args.function == 'finetune':
     if args.reading_params_path is not None:
         # With pretraining.
         model.load_state_dict(torch.load(args.reading_params_path))
+        model = model.to(device) # Move to GPU!
         tconf = trainer.TrainerConfig(max_epochs=10, batch_size=256, learning_rate=6e-4,
                                       lr_decay=True, warmup_tokens=512 * 20,
                                       final_token=200 * len(pretrain_dataset) * block_size, num_workers=4)
-        trainer = trainer.Trainer(model, text, None, tconf)
-        trainer.train()
-        torch.save(model, args.writing_params_path)  # Save the model.
     else:
         # Without pretraining.
         tconf = trainer.TrainerConfig(max_epochs=75, batch_size=256, learning_rate=6e-4,
                                       lr_decay=True, warmup_tokens=512 * 20,
                                       final_token=200 * len(pretrain_dataset) * block_size, num_workers=4)
-        trainer = trainer.Trainer(model, text, None, tconf)
-        trainer.train()
-        torch.save(model, args.writing_params_path)  # Save the model.
+    trainer = trainer.Trainer(model, pretrain_dataset, None, tconf)
+    trainer.train()
+    torch.save(model, args.writing_params_path)  # Save the model.
     # raise NotImplementedError
 elif args.function == 'evaluate':
     assert args.outputs_path is not None
