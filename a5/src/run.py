@@ -56,7 +56,8 @@ Don't change above here; write your code below
 """
 
 if args.variant == 'vanilla':
-    pass  # TODO [part c]: Make some model here
+    # [part c]: Make some model here
+    model = model.GPT(mconf)
 elif args.variant == 'synthesizer':
     pass  # TODO [part g]: Make some other model here
 
@@ -113,7 +114,24 @@ elif args.function == 'finetune':
     #         warmup_tokens=512*20
     #         final_tokens=200*len(pretrain_dataset)*block_size
     #         num_workers=4
-    raise NotImplementedError
+    if args.reading_params_path is not None:
+        # With pretraining.
+        model.load_state_dict(torch.load(args.reading_params_path))
+        tconf = trainer.TrainerConfig(max_epochs=10, batch_size=256, learning_rate=6e-4,
+                                      lr_decay=True, warmup_tokens=512 * 20,
+                                      final_token=200 * len(pretrain_dataset) * block_size, num_workers=4)
+        trainer = trainer.Trainer(model, text, None, tconf)
+        trainer.train()
+        torch.save(model, args.writing_params_path)  # Save the model.
+    else:
+        # Without pretraining.
+        tconf = trainer.TrainerConfig(max_epochs=75, batch_size=256, learning_rate=6e-4,
+                                      lr_decay=True, warmup_tokens=512 * 20,
+                                      final_token=200 * len(pretrain_dataset) * block_size, num_workers=4)
+        trainer = trainer.Trainer(model, text, None, tconf)
+        trainer.train()
+        torch.save(model, args.writing_params_path)  # Save the model.
+    # raise NotImplementedError
 elif args.function == 'evaluate':
     assert args.outputs_path is not None
     assert args.reading_params_path is not None
@@ -127,9 +145,9 @@ elif args.function == 'evaluate':
             x = line.split('\t')[0]
             x = x + '⁇'
             x = torch.tensor([pretrain_dataset.stoi[s] for s in x], dtype=torch.long)[None, ...].to(device)
-            pred = utils.sample(model, x, 32, sample=False)[0]
+            pred = utils.sample(model, x, steps=32, sample=False)[0]
             completion = ''.join([pretrain_dataset.itos[int(i)] for i in pred])
-            pred = completion.split('⁇')[1]
+            pred = completion.split('⁇')[1]  # Get the answer word.
             predictions.append(pred)
             fout.write(pred + '\n')
         total, correct = utils.evaluate_places(args.eval_corpus_path, predictions)

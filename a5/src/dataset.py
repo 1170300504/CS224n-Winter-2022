@@ -32,18 +32,18 @@ class NameDataset(Dataset):
         self.data = list(data.encode('utf-8').decode('ascii', errors='ignore').split('\n'))
 
     def __len__(self):
-        # returns the length of the dataset
+        # Returns the length of the dataset
         return len(self.data) - 1
 
     def __getitem__(self, idx):
-        inp, oup = self.data[idx].split('\t')
-        x = inp + self.MASK_CHAR + oup + self.MASK_CHAR
-        x = x + self.PAD_CHAR * (self.block_size - len(x))
-        y = self.PAD_CHAR * (len(inp) - 1) + x[len(inp):]
+        inp, oup = self.data[idx].split('\t')  # The input-output pairs are separated by '\t'.
+        x = inp + self.MASK_CHAR + oup + self.MASK_CHAR  # Surround answers with <MASK> and append it to question.
+        x = x + self.PAD_CHAR * (self.block_size - len(x))  # Pad to block_size.
+        y = self.PAD_CHAR * (len(inp) - 1) + x[len(inp):]  # The answer in y comes 1 character before it is in x.
 
-        x = x[:-1]
-        x = torch.tensor([self.stoi[c] for c in x], dtype=torch.long)
-        y = torch.tensor([self.stoi[c] for c in y], dtype=torch.long)
+        x = x[:-1]  # Remove the last <pad> token. Note that x, y are both of length block_size-1.
+        x = torch.tensor([self.stoi[c] for c in x], dtype=torch.long)  # Convert char to indices.
+        y = torch.tensor([self.stoi[c] for c in y], dtype=torch.long)  # Type Tensor.long!
         return x, y
 
 
