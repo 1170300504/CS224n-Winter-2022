@@ -175,7 +175,7 @@ class CharCorruptionDataset(Dataset):
         doc = self.data[idx]
         truncated_len = np.random.randint(4, int(self.block_size * 7 / 8 + 1))
         doc = doc[:truncated_len]  # Truncate to given length.
-        masked_content_len = truncated_len * np.gauss(0.25, 0.1)
+        masked_content_len = truncated_len * np.random.normal(0.25, 0.1)
         masked_content_len = np.clip(masked_content_len, 1, truncated_len - 2)  # Clip invalid random indices.
         masked_content_idx = np.random.randint(1, truncated_len - masked_content_len - 1)
         prefix = doc[:masked_content_idx]
