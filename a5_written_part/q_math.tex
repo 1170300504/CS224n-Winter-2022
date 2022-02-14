@@ -81,7 +81,7 @@ Observe that the output $c\in\mathbb{R}^d$ is an average over the value vectors 
             \newline
             We want $\alpha_1 \approx \alpha_2 \approx \frac{1}{2}$, so the attention scores $k_a^\top q$ and $k_b^\top q$
             must be close and their sum must be dominating.
-            So $q = \beta (k_a + k_b)$ suffices, where $\beta \gg 0$ (large scalar multiple).
+            So $q = \beta (k_a + k_b)$, where $\beta \gg 0$ (large scalar multiple).
         \end{answer}
     \end{subparts}
 
@@ -97,7 +97,7 @@ Observe that the output $c\in\mathbb{R}^d$ is an average over the value vectors 
         Design a query $q$ in terms of the $\mu_i$ such that as before, $c\approx \frac{1}{2}(v_a + v_b)$, and provide a brief argument as to why it works.
         \begin{answer}
             It is obvious that $k_i \approx \mu_i$ here since $\alpha$ is \textit{vanishingly small}.
-            So $q = \beta (k_a + k_b)$ suffices, where $\beta \gg 0$.
+            So $q = \beta (k_a + k_b)$, where $\beta \gg 0$.
         \end{answer}
 
         \subpart[3] Though single-headed attention is resistant to small perturbations in the keys, some types of larger perturbations may pose a bigger issue. Specifically, in some cases, one key vector $k_a$ may be larger or smaller in norm than the others, while still pointing in the same direction as $\mu_a$. As an example, let us consider a covariance for item $a$ as $\Sigma_a = \alpha I + \frac{1}{2}(\mu_a\mu_a^\top)$ for vanishingly small $\alpha$ (as shown in figure \ref{ka_plausible}). This causes $k_a$ to point in roughly the same direction as $\mu_a$, but with large variances in magnitude. Further, let $\Sigma_i = \alpha I$ for all $i \neq a$.
@@ -138,7 +138,8 @@ Observe that the output $c\in\mathbb{R}^d$ is an average over the value vectors 
         Design $q_1$ and $q_2$ such that $c$ is approximately equal to $\frac{1}{2}(v_a+v_b)$.
 
         \begin{answer}
-            Please write your answer here.
+            Since $\alpha$ is vanishingly small, $k_i \approx \mu_i$.
+            So $q_1 = q_2 = \beta (k_a + k_b)$ , where $\beta \gg 0$.
         \end{answer}
 
         \subpart[2]
@@ -147,7 +148,17 @@ Observe that the output $c\in\mathbb{R}^d$ is an average over the value vectors 
         What, qualitatively, do you expect the output $c$ to look like across different samples of the key vectors? Please briefly explain why. You can ignore cases in which $k_a^\top q_i < 0$.
 
         \begin{answer}
-            Please write your answer here.
+            Since $\alpha$ is vanishingly small, we may \textbf{assume} $k_a \approx \gamma \mu_a$, where $\gamma \sim \mathcal{N}(1, \frac{1}{2})$.
+            Also, $k_j^\top q_i \approx 0$ still holds for $i \in \{1, 2\}$ and $j \notin \{a, b\}$, and $k_b^\top q_i = \beta \gg 0$.
+            Therefore, \\
+            \[
+                \begin{aligned}
+                    c &\approx \frac{\exp (\gamma \beta)}{\exp(\gamma \beta) + \exp(\beta)} v_a + \frac{\exp (\beta)}{\exp(\gamma \beta) + \exp(\beta)} v_b \\
+                    &= \frac{1}{\exp((1-\gamma) \beta) + 1} v_a + \frac{1}{\exp((\gamma - 1) \beta) + 1} v_b \\
+                \end{aligned}
+            \]
+            As we now have a $c$ for each attention head, it is equivalent to move $\gamma$ close to its expectation, which is $1$.
+            So $c$ will approach $\frac{1}{2}(v_a + v_b)$ as we increase the number of attention heads.
         \end{answer}
 
 
