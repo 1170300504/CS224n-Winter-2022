@@ -184,7 +184,11 @@ class CharCorruptionDataset(Dataset):
         masked_content = prefix + self.MASK_CHAR + suffix + self.MASK_CHAR + masked_content  # Rearrange.
         masked_content += self.PAD_CHAR * (self.block_size - len(masked_content))  # Pad to block_size.
 
-        return masked_content[:-1], masked_content[1:]  # Return x, y.
+        # Encode into long tensors.
+        x = torch.tensor([self.stoi[c] for c in masked_content[:-1]], dtype=torch.long)
+        y = torch.tensor([self.stoi[c] for c in masked_content[1:]], dtype=torch.long)
+
+        return x, y
 
 
 """
