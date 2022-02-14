@@ -117,7 +117,7 @@ elif args.function == 'finetune':
     if args.reading_params_path is not None:
         # With pretraining.
         model.load_state_dict(torch.load(args.reading_params_path))
-        model = model.to(device) # Move to GPU!
+        model = model.to(device)  # Move to GPU!
         tconf = trainer.TrainerConfig(max_epochs=10, batch_size=256, learning_rate=6e-4,
                                       lr_decay=True, warmup_tokens=512 * 20,
                                       final_token=200 * len(pretrain_dataset) * block_size, num_workers=4)
