@@ -44,7 +44,7 @@ device = torch.cuda.current_device() if torch.cuda.is_available() else 'cpu'
 # vocab from the pretraining corpus.)
 block_size = 128
 text = open(args.pretrain_corpus_path).read()
-pretrain_dataset = dataset.CharCorruptionDataset(text, block_size)
+pretrain_dataset = dataset.CharCorruptionDataset(text, block_size)  # pretraining dataset based on charcorruption
 
 # We don't suggest you change these hyperparameters, as they're known to work.
 # use them for both the vanilla and the synthesizer models
@@ -67,7 +67,7 @@ elif args.variant == 'synthesizer':
 if args.function == 'pretrain':
     assert args.pretrain_corpus_path is not None
     assert args.writing_params_path is not None
-    # TODO [part f]:
+    # [part f]:
     # - Given:
     #     1. A corpus specified in args.pretrain_corpus_path
     #     2. An output path args.writing_params_path for the model parameters
@@ -88,11 +88,10 @@ if args.function == 'pretrain':
     trainer = trainer.Trainer(model, pretrain_dataset, None, tconf)
     trainer.train()
     torch.save(model.state_dict(), args.writing_params_path)
-    # raise NotImplementedError
 elif args.function == 'finetune':
     assert args.writing_params_path is not None
     assert args.finetune_corpus_path is not None
-    # TODO [part c] [part f]:
+    # [part c] [part f]:
     # - Given:
     #     1. A finetuning corpus specified in args.finetune_corpus_path
     #     2. A path args.reading_params_path containing pretrained model
@@ -132,11 +131,11 @@ elif args.function == 'finetune':
                                       lr_decay=True, warmup_tokens=512 * 20,
                                       final_token=200 * len(pretrain_dataset) * block_size, num_workers=4)
     finetune_text = open(args.finetune_corpus_path).read()
-    finetune_dataset = dataset.NameDataset(text, block_size)
-    trainer = trainer.Trainer(model, fine, None, tconf)
+    # Pass the pretrain_dataset in so that they share the same vocabulary.
+    finetune_dataset = dataset.NameDataset(pretrain_dataset, finetune_text)
+    trainer = trainer.Trainer(model, finetune_dataset, None, tconf)
     trainer.train()
     torch.save(model.state_dict(), args.writing_params_path)  # Save the model.
-    # raise NotImplementedError
 elif args.function == 'evaluate':
     assert args.outputs_path is not None
     assert args.reading_params_path is not None
