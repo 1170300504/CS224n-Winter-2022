@@ -82,7 +82,14 @@ if args.function == 'pretrain':
     #     warmup_tokens=512*20
     #     final_tokens=200*len(pretrain_dataset)*block_size
     #     num_workers=4
-    raise NotImplementedError
+    model = model.to(device)
+    tconf = trainer.TrainerConfig(max_epochs=650, batch_size=128, learning_rate=6e-3,
+                                  lr_decay=True, warmup_tokens=512 * 20,
+                                  final_token=200 * len(pretrain_dataset) * block_size, num_workers=4)
+    trainer = trainer.Trainer(model, pretrain_dataset, None, tconf)
+    trainer.train()
+    torch.save(model.state_dict(), args.writing_params_path)
+    # raise NotImplementedError
 elif args.function == 'finetune':
     assert args.writing_params_path is not None
     assert args.finetune_corpus_path is not None
@@ -128,7 +135,7 @@ elif args.function == 'finetune':
                                       final_token=200 * len(pretrain_dataset) * block_size, num_workers=4)
     trainer = trainer.Trainer(model, pretrain_dataset, None, tconf)
     trainer.train()
-    torch.save(model, args.writing_params_path)  # Save the model.
+    torch.save(model.state_dict(), args.writing_params_path)  # Save the model.
     # raise NotImplementedError
 elif args.function == 'evaluate':
     assert args.outputs_path is not None
