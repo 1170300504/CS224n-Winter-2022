@@ -155,9 +155,9 @@ class ParserModel(nn.Module):
         ###     ReLU: https://pytorch.org/docs/stable/nn.html?highlight=relu#torch.nn.functional.relu
 
         embedding = self.embedding_lookup(w)  # It makes no sense to zero-out an embedding entry.
-        hidden_state = F.relu(embedding @ self.embed_to_hidden_weight + self.embed_to_hidden_bias)  # Or torch.matmul().
+        hidden_state = F.relu(torch.matmul(embedding, self.embed_to_hidden_weight) + self.embed_to_hidden_bias)
         hidden_dropout = self.dropout(hidden_state)
-        logits = hidden_dropout @ self.hidden_to_logits_weight + self.hidden_to_logits_bias
+        logits = torch.matmul(hidden_dropout, self.hidden_to_logits_weight) + self.hidden_to_logits_bias
 
         ### END YOUR CODE
         return logits
