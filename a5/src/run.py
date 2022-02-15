@@ -57,7 +57,7 @@ Don't change above here; write your code below
 
 if args.variant == 'vanilla':
     # [part c]: Make some model here
-    model = model.GPT(mconf)
+    model = model.GPT(mconf).to(device)
 elif args.variant == 'synthesizer':
     pass  # TODO [part g]: Make some other model here
 
@@ -82,7 +82,6 @@ if args.function == 'pretrain':
     #     warmup_tokens=512*20
     #     final_tokens=200*len(pretrain_dataset)*block_size
     #     num_workers=4
-    model = model.to(device)
     tconf = trainer.TrainerConfig(max_epochs=650, batch_size=128, learning_rate=6e-3,
                                   lr_decay=True, warmup_tokens=512 * 20,
                                   final_token=200 * len(pretrain_dataset) * block_size, num_workers=4)
@@ -124,7 +123,6 @@ elif args.function == 'finetune':
     if args.reading_params_path is not None:
         # With pretraining.
         model.load_state_dict(torch.load(args.reading_params_path))
-        model = model.to(device)  # Move to GPU!
         tconf = trainer.TrainerConfig(max_epochs=10, batch_size=256, learning_rate=6e-4,
                                       lr_decay=True, warmup_tokens=512 * 20,
                                       final_token=200 * len(pretrain_dataset) * block_size, num_workers=4)
@@ -133,7 +131,9 @@ elif args.function == 'finetune':
         tconf = trainer.TrainerConfig(max_epochs=75, batch_size=256, learning_rate=6e-4,
                                       lr_decay=True, warmup_tokens=512 * 20,
                                       final_token=200 * len(pretrain_dataset) * block_size, num_workers=4)
-    trainer = trainer.Trainer(model, pretrain_dataset, None, tconf)
+    finetune_text = open(args.finetune_corpus_path).read()
+    finetune_dataset = dataset.NameDataset(text, block_size)
+    trainer = trainer.Trainer(model, fine, None, tconf)
     trainer.train()
     torch.save(model.state_dict(), args.writing_params_path)  # Save the model.
     # raise NotImplementedError
