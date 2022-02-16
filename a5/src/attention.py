@@ -94,7 +94,7 @@ class SynthesizerAttention(nn.Module):
         nn.init.uniform_(self.w2, -0.001, 0.001)
 
     def forward(self, x, layer_past=None):
-        # TODO [part g]: Write your SynthesizerAttention below.
+        # [part g]: Write your SynthesizerAttention below.
         #   Do not modify __init__().
         """
         B -> batch_size
@@ -106,8 +106,8 @@ class SynthesizerAttention(nn.Module):
         B, T, C = x.size()  # batch_size, sequence_length (block_size), total_dimension
 
         v = self.value(x).view(B, T, self.n_head, C // self.n_head).transpose(1, 2)  # (B, nh, T, hs)
-        temp = F.relu(self.w1(x)).view(B, T, self.n_head, C // self.n_head).transpose(1, 2)  # (B, nh, T, hs)
-        att = temp @ self.w2 + self.b2 # (B, nh, T, hs) -> (B, nh, T, T-1)
+        att = F.relu(self.w1(x)).view(B, T, self.n_head, C // self.n_head).transpose(1, 2)  # (B, nh, T, hs)
+        att = att @ self.w2[None, None, ..., :T] + self.b2[..., :T]  # (B, nh, T, hs) -> (B, nh, T, T-1)
         att = att.masked_fill(self.mask[:, :, :T, :T] == 0, float('-inf'))  # Replace masked entries with -inf.
         att = F.softmax(att, dim=-1)
         att = self.attn_drop(att)  # Apply dropout.
