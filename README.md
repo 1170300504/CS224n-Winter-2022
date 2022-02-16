@@ -15,7 +15,7 @@ Unfortunately, I'm not a Stanford student! :) Although I have scrupulously exami
 - [x] Assignment 2
 - [x] Assignment 3
 - [x] Assignment 4
-- [ ] **Assignment 5 (Self-Attention, Transformers, and Pretraining)** :point_left:
+- [x] Assignment 5 (Self-Attention, Transformers, and Pretraining)
 - [ ] Default Final Project (IID SQuAD track)
 - [ ] Default Final Project (Robust QA track)
 - [x] PyTorch Tutorial
@@ -40,4 +40,5 @@ Unfortunately, I'm not a Stanford student! :) Although I have scrupulously exami
 
 **Feb. 9, 2022** - `a5` written part updated.
 
+**Feb. 17, 2022** - `a5` completed. All Winter 2022 assignments finished.
 
