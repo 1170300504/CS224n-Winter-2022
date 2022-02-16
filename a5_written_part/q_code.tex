@@ -1,4 +1,4 @@
-% real numbers R symbol
+\usepackage{hyperref}% real numbers R symbol
 \newcommand{\Real}{\mathbb{R}}
 \newcommand{\Int}{\mathbb{Z}}
 
@@ -96,7 +96,9 @@ python src/run.py evaluate vanilla wiki.txt  \
 
     Training will take less than 10 minutes (on Azure). Report your model's accuracy on the dev set (as printed by the second command above). Don't be surprised if it is well below 10\%; we will be digging into why in Part 3. As a reference point, we want to also calculate the accuracy the model would have achieved if it had just predicted ``London'' as the birth place for everyone in the dev set. Fill in \texttt{london\_baseline.py} to calculate the accuracy of that approach and report your result in your write-up. You should be able to leverage existing code such that the file is only a few lines long.
     \begin{answer}
-        Accuracy: $1.2\%$ (6.0 out of 500.0)
+        \newline
+        Accuracy: $1.2\%$ (6.0 out of 500.0)\\
+        Accuracy with "London": $5.0\%$ (25.0 out of 500.0)
     \end{answer}
 
     \part[10]\textbf{Define a \textit{span corruption} function for pretraining.}\\
@@ -221,7 +223,10 @@ python src/run.py evaluate synthesizer wiki.txt  \
         \subpart[2] Why might the \textit{synthesizer} self-attention not be able to do, in a single layer, what the key-query-value self-attention can do?
 
         \begin{answer}
-            Accuracy: $7.6\%$ (38.0 out of 500.0)
+            \begin{enumerate}[label=\roman*.]
+                \item Accuracy: $8.0\%$ (40.0 out of 500.0)
+                \item The \textit{synthesizer} may not be able to evaluate the relevance between all pairs of words.
+            \end{enumerate}
         \end{answer}
 
     \end{subparts}
@@ -234,7 +239,8 @@ python src/run.py evaluate synthesizer wiki.txt  \
     \part[1] Succinctly explain why the pretrained (vanilla) model was able to achieve an accuracy of above 10\%, whereas the non-pretrained model was not.
 
     \begin{answer}
-        Please provide your succinct explanation here.
+        It took much more time and a much larger training set to train the pretrained model.
+        Also, it used a \textit{span corruption} dataset, which required the model to learn the general pattern of the input document.
     \end{answer}
 
     \part[2] Take a look at some of the correct predictions of the pretrain+finetuned vanilla model, as well as some of the errors.
