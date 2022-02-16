@@ -249,7 +249,8 @@ python src/run.py evaluate synthesizer wiki.txt  \
     Come up with two \textbf{distinct} reasons why this model behavior (i.e. unable to tell whether it's retrieved or made up) may cause concern for such applications, and an example for each reason.
 
     \begin{answer}
-        Please provide your reasons here.
+        This model behavior may cast significant doubt on the overall reliability of the model output and may therefore mislead users.
+        Also, it may output something immoral and hurt people.
     \end{answer}
 
     \part[2] If your model didn't see a person's name at pretraining time, and that person was not seen at fine-tuning time either, it is not possible for it to have ``learned'' where they lived.
@@ -258,7 +259,8 @@ python src/run.py evaluate synthesizer wiki.txt  \
     (You do not need to submit the same answer for 3c as for 3b.)
 
     \begin{answer}
-        Please provide your reasons here.
+        The model may pick another person whose name is in some sense \textit{similar} to the unknown person's, and output his/her
+        birth place instead. This kind of outputs are totally wrong and have zero or even negative value in reality.
     \end{answer}
 
 \end{parts}
