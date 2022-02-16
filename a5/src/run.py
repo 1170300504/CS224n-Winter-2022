@@ -130,8 +130,8 @@ elif args.function == 'finetune':
         tconf = trainer.TrainerConfig(max_epochs=75, batch_size=256, learning_rate=6e-4,
                                       lr_decay=True, warmup_tokens=512 * 20,
                                       final_token=200 * len(pretrain_dataset) * block_size, num_workers=4)
-    finetune_text = open(args.finetune_corpus_path).read()
     # Pass the pretrain_dataset in so that they share the same vocabulary.
+    finetune_text = open(args.finetune_corpus_path).read()
     finetune_dataset = dataset.NameDataset(pretrain_dataset, finetune_text)
     trainer = trainer.Trainer(model, finetune_dataset, None, tconf)
     trainer.train()
