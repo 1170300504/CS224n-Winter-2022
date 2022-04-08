@@ -2,8 +2,8 @@
 
 This repository contains my solutions to the assignments of Stanford
 [*CS224n: Natural Language Processing with Deep Learning*](https://web.stanford.edu/class/cs224n/)
-(Winter 2022). If you find any errors, ***please***
-let me know by creating an issue or email me at siyuanq4@illinois.edu.
+(Winter 2022). If you find any errors, please
+email me at siyuanq4@illinois.edu.
 
 ### Important Information
 
